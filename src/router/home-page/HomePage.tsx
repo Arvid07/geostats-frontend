@@ -1,0 +1,91 @@
+import GeoGuessrMap from "@/router/home-page/map/GeoGuessrMap.tsx";
+import {useEffect, useState} from "react";
+import * as React from "react";
+import type {Player} from "@/router/ContainerPage.tsx";
+import SelectDataFormat from "@/router/home-page/components/DataFormat.tsx";
+import SelectGameModes from "@/router/home-page/components/SelectGameModes.tsx";
+import SelectTime from "@/router/home-page/components/SelectTime.tsx";
+import {DataFormat, type HomePageResponse, type MapData, type PlayerStats, TeamGameMode, Time} from "@/router/home-page/Components.ts";
+import {setMapDataFromResponse} from "@/router/home-page/utils.ts";
+
+interface Props {
+    setPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean | null>>;
+    setIsLinked: React.Dispatch<React.SetStateAction<boolean | null>>;
+}
+
+function HomePage({setPlayer, setIsLoggedIn, setIsLinked}: Props) {
+    const [dataFormat, setDataFormat] = useState(DataFormat.Absolute);
+    const [gameMode, setGameMode] = useState(TeamGameMode.DuelsRanked);
+    const [time, setTime] = useState(Time.AllTime);
+    const [playerStats, setPlayerStats] = useState<null | PlayerStats>(null);
+    const [mapData, setMapData] = useState<MapData | null>(null);
+
+    useEffect(() => {
+        if (playerStats) {
+            setMapDataFromResponse(setMapData, playerStats, gameMode);
+        }
+    }, [playerStats, setMapData, gameMode]);
+
+    useEffect(() => {
+        fetch("http://localhost:8080/home-page", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(async (response) => {
+            if (!response.ok) {
+                switch (response.status) {
+                    case 400: case 401: case 410:
+                        setIsLoggedIn(false);
+                        setIsLinked(false);
+                        break;
+                    case 409:
+                        setIsLoggedIn(true);
+                        setIsLinked(false);
+                        break;
+                    default:
+                        setIsLoggedIn(true);
+                        setIsLinked(true);
+                        break
+                }
+
+                const errText = await response.text();
+                throw new Error(errText);
+            }
+
+            return await response.json() as HomePageResponse;
+        }).then((response) => {
+            if (response.stats && response.enemyStats) {
+                setPlayerStats({
+                    stats: response.stats,
+                    enemyStats: response.enemyStats
+                });
+            }
+
+            setPlayer(response.player);
+            setIsLoggedIn(true);
+            setIsLinked(true);
+        }).catch((err: Error) => {
+            console.error(err.message);
+        });
+
+    }, [setIsLinked, setIsLoggedIn, setMapData, setPlayer]);
+
+    return (
+        <div className={"flex flex-col items-center justify-center gap-10"}>
+            <p className={"text-3xl font-bold"}>Geo Stats - Your Stats for Geo Guessr</p>
+            <div>
+                <div className={"flex flex-row justify-between mb-1"}>
+                    <SelectDataFormat dataFormat={dataFormat} setDataFormat={setDataFormat}/>
+                    <SelectGameModes gameMode={gameMode} setGameMode={setGameMode}/>
+                    <SelectTime time={time} setTime={setTime}/>
+                </div>
+                <GeoGuessrMap mapData={mapData} dataFormat={dataFormat}/>
+            </div>
+        </div>
+    );
+}
+
+export default HomePage;
