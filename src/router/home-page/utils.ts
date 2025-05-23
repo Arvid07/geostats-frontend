@@ -1,46 +1,84 @@
 import * as React from "react";
-import {type MapData, type PlayerStats, TeamGameMode} from "@/router/home-page/Components.ts";
+import {
+    type CountryStats,
+    type MapData,
+    type PlayerStats,
+    type StatsGuess,
+    TeamGameMode
+} from "@/router/home-page/Components.ts";
+
+function convertFromRawStats(rawStats: StatsGuess[], startTime: number): Map<string, CountryStats> {
+    const stats = new Map();
+
+    for (const stat of rawStats) {
+        if (stat.time < startTime) {
+            return stats;
+        }
+
+        const countryStats = stats.get(stat.countryCode);
+        
+        if (countryStats) {
+            const newStats: CountryStats = {
+                count: countryStats.count + 1,
+                points: countryStats.points + stat.points
+            }
+            
+            stats.set(stat.countryCode, newStats);
+        } else {
+            const startStats: CountryStats = {
+                count: 1,
+                points: stat.points
+            }
+            
+            stats.set(stat.countryCode, startStats);
+        }
+    }
+    
+    return stats;
+}
 
 export function setMapDataFromResponse(
     setMapData: React.Dispatch<React.SetStateAction<MapData | null>>,
-    playerStats: PlayerStats,
-    gameMode: TeamGameMode
+    rawStats: PlayerStats,
+    gameMode: TeamGameMode,
+    time: number
 ) {
     switch (gameMode) {
-        case TeamGameMode.Duels:
+        case TeamGameMode.Duels: {
             setMapData({
-                stats: new Map(Object.entries(playerStats.stats.duels)),
-                enemyStats: new Map(Object.entries(playerStats.enemyStats.duels))
+                stats: convertFromRawStats(rawStats.stats.duels, time),
+                enemyStats: convertFromRawStats(rawStats.enemyStats.duels, time)
             });
             break;
+        }
         case TeamGameMode.DuelsRanked:
             setMapData({
-                stats: new Map(Object.entries(playerStats.stats.duelsRanked)),
-                enemyStats: new Map(Object.entries(playerStats.enemyStats.duelsRanked))
+                stats: convertFromRawStats(rawStats.stats.duelsRanked, time),
+                enemyStats: convertFromRawStats(rawStats.enemyStats.duelsRanked, time)
             });
             break;
         case TeamGameMode.TeamDuels:
             setMapData({
-                stats: new Map(Object.entries(playerStats.stats.teamDuels)),
-                enemyStats: new Map(Object.entries(playerStats.enemyStats.teamDuels))
+                stats: convertFromRawStats(rawStats.stats.teamDuels, time),
+                enemyStats: convertFromRawStats(rawStats.enemyStats.teamDuels, time)
             });
             break;
         case TeamGameMode.TeamDuelsRanked:
             setMapData({
-                stats: new Map(Object.entries(playerStats.stats.teamDuelsRanked)),
-                enemyStats: new Map(Object.entries(playerStats.enemyStats.teamDuelsRanked))
+                stats: convertFromRawStats(rawStats.stats.teamDuelsRanked, time),
+                enemyStats: convertFromRawStats(rawStats.enemyStats.teamDuelsRanked, time)
             });
             break;
         case TeamGameMode.TeamFun:
             setMapData({
-                stats: new Map(Object.entries(playerStats.stats.teamFun)),
-                enemyStats: new Map(Object.entries(playerStats.enemyStats.teamFun))
+                stats: convertFromRawStats(rawStats.stats.teamFun, time),
+                enemyStats: convertFromRawStats(rawStats.enemyStats.teamFun, time)
             });
             break;
         case TeamGameMode.Ranked:
             setMapData({
-                stats: new Map(Object.entries(playerStats.stats.duelsRanked)),
-                enemyStats: new Map(Object.entries(playerStats.enemyStats.duelsRanked))
+                stats: convertFromRawStats(rawStats.stats.duels, time),
+                enemyStats: convertFromRawStats(rawStats.enemyStats.duels, time)
             });
             break;
     }

@@ -21,11 +21,42 @@ function HomePage({setPlayer, setIsLoggedIn, setIsLinked}: Props) {
     const [playerStats, setPlayerStats] = useState<null | PlayerStats>(null);
     const [mapData, setMapData] = useState<MapData | null>(null);
 
+    function getMonday() {
+        const d = new Date()
+        const day = d.getUTCDay()
+        const diff = (day + 6) % 7
+        d.setDate(d.getUTCDate() - diff)
+        d.setHours(0, 0, 0, 0)
+        return d.getTime()
+    }
+
     useEffect(() => {
         if (playerStats) {
-            setMapDataFromResponse(setMapData, playerStats, gameMode);
+            switch (time) {
+                case Time.AllTime:
+                    setMapDataFromResponse(setMapData, playerStats, gameMode, 0);
+                    break;
+                case Time.ThisWeek:
+                    console.log(new Date(getMonday()));
+                    setMapDataFromResponse(setMapData, playerStats, gameMode, getMonday());
+                    break;
+                case Time.Last7Days:
+                    console.log(new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000));
+                    console.log(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
+                    setMapDataFromResponse(setMapData, playerStats, gameMode, new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
+                    break;
+                case Time.Last30Days:
+                    setMapDataFromResponse(setMapData, playerStats, gameMode, new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
+                    break;
+                case Time.LastYear:
+                    setMapDataFromResponse(setMapData, playerStats, gameMode, new Date().getTime() - 365 * 24 * 60 * 60 * 1000);
+                    break;
+                case Time.Custom:
+                    setMapDataFromResponse(setMapData, playerStats, gameMode, 0);
+                    break;
+            }
         }
-    }, [playerStats, setMapData, gameMode]);
+    }, [playerStats, setMapData, gameMode, time]);
 
     useEffect(() => {
         fetch("http://localhost:8080/home-page", {
@@ -57,6 +88,7 @@ function HomePage({setPlayer, setIsLoggedIn, setIsLinked}: Props) {
 
             return await response.json() as HomePageResponse;
         }).then((response) => {
+            console.log(response);
             if (response.stats && response.enemyStats) {
                 setPlayerStats({
                     stats: response.stats,

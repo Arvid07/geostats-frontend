@@ -31,11 +31,11 @@ export interface HomePageResponse {
 }
 
 export interface Stats {
-    duels: Map<string, CountryStats>;
-    duelsRanked: Map<string, CountryStats>;
-    teamDuels: Map<string, CountryStats>;
-    teamDuelsRanked: Map<string, CountryStats>;
-    teamFun: Map<string, CountryStats>;
+    duels: StatsGuess[];
+    duelsRanked: StatsGuess[];
+    teamDuels: StatsGuess[];
+    teamDuelsRanked: StatsGuess[];
+    teamFun: StatsGuess[];
 }
 
 export interface CountryStats {
@@ -51,4 +51,10 @@ export interface PlayerStats {
 export interface MapData {
     stats: Map<string, CountryStats>;
     enemyStats: Map<string, CountryStats>;
+}
+
+export interface StatsGuess {
+    time: number;
+    points: number;
+    countryCode: string;
 }
