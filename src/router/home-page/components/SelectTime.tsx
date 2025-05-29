@@ -1,14 +1,14 @@
 import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
-import {Time} from "@/router/home-page/Components.ts";
-import * as React from "react";
+import {Time} from "@/Components.ts";
+import {useContext} from "react";
+import {Context} from "@/App.tsx";
 
-interface Props {
-    time: Time;
-    setTime: React.Dispatch<React.SetStateAction<Time>>;
-}
+export function SelectTime() {
+    const {
+        time,
+        setTime
+    } = useContext(Context);
 
-
-export function SelectTime({ time, setTime }: Props) {
     return (
         <Select
             value={time}

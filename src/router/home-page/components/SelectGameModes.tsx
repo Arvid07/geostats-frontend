@@ -1,13 +1,14 @@
 import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
-import {TeamGameMode} from "@/router/home-page/Components.ts";
-import * as React from "react";
+import {TeamGameMode} from "@/Components.ts";
+import {useContext} from "react";
+import {Context} from "@/App.tsx";
 
-interface Props {
-    gameMode: TeamGameMode;
-    setGameMode: React.Dispatch<React.SetStateAction<TeamGameMode>>;
-}
+export function SelectGameModes() {
+    const {
+        gameMode,
+        setGameMode
+    } = useContext(Context);
 
-export function SelectGameModes({ gameMode, setGameMode }: Props) {
     return (
         <Select
             value={gameMode}

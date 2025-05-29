@@ -1,16 +1,12 @@
 import {ComposableMap, ZoomableGroup} from "react-simple-maps";
-import {useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import * as React from "react";
 import data from "./data.json";
 import HoverCard from "@/router/home-page/map/HoverCard.tsx";
-import {DataFormat, type MapData} from "@/router/home-page/Components.ts";
+import {DataFormat} from "@/Components.ts";
+import {Context} from "@/App.tsx";
 
-interface Props {
-    mapData: MapData | null;
-    dataFormat: DataFormat;
-}
-
-function GeoGuessrMap({ mapData, dataFormat }: Props) {
+function GeoGuessrMap() {
     const coordsRef = useRef({ x: 0, y: 0 });
     const hoverCardRef = useRef<HTMLDivElement>(null);
     const hoverTimerRef = useRef<number | null>(null);
@@ -18,13 +14,18 @@ function GeoGuessrMap({ mapData, dataFormat }: Props) {
     const [countryCode, setCountryCode] = useState<string | null>(null);
     const [countryName, setCountryName] = useState("");
 
+    const {
+        mapData,
+        dataFormat
+    } = useContext(Context);
+
     useEffect(() => {
         if (!countryCode) {
             return;
         }
 
         const countryNames = new Intl.DisplayNames(["en"], {type: "region"})
-        setCountryName(countryNames.of(countryCode.toUpperCase())!);
+        setCountryName(countryNames.of(countryCode)!);
     }, [countryCode]);
 
     useEffect(() => {
@@ -53,7 +54,7 @@ function GeoGuessrMap({ mapData, dataFormat }: Props) {
             if (hoverCardRef.current) {
                 hoverCardRef.current.hidden = false;
             }
-        }, 500);
+        }, 350);
     }
 
     function getCountryColor(countryId: string) {
@@ -67,13 +68,13 @@ function GeoGuessrMap({ mapData, dataFormat }: Props) {
                         return `hsl(${120 * (stats.points / stats.count) / 5000}, 100%, 50%)`;
                     }
                     break
-                case DataFormat.RelativeEnemy:
+                case DataFormat.Damage:
                     if (stats && enemyStats) {
                         const relativePoints = ((stats.points / stats.count) - (enemyStats.points / enemyStats.count) + 5000) / 10000;
                         return `hsl(${120 * getRelativePoints(relativePoints)}, 100%, 50%)`;
                     }
                     break;
-                case DataFormat.RelativeCountry:
+                case DataFormat.Country:
                     break;
             }
         }

@@ -1,9 +1,21 @@
-import type {Player} from "@/router/ContainerPage.tsx";
+export interface Player {
+    id: string;
+    name: string;
+    countryCode: string;
+    avatarPin: string;
+    level: number;
+    isProUser: boolean;
+    isCreator: boolean;
+    rating?: number | null;
+    movingRating?: number | null;
+    noMoveRating?: number | null;
+    nmpzRating?: number | null;
+}
 
 export enum DataFormat {
     Absolute = "Absolute",
-    RelativeEnemy = "RelativeEnemy",
-    RelativeCountry = "RelativeCountry"
+    Damage = "Damage",
+    Country = "Country"
 }
 
 export enum TeamGameMode {
@@ -24,7 +36,7 @@ export enum Time {
     Custom = "Custom"
 }
 
-export interface HomePageResponse {
+export interface StatsResponse {
     stats: Stats | null;
     enemyStats: Stats | null;
     player: Player;
@@ -43,6 +55,14 @@ export interface CountryStats {
     points: number;
 }
 
+export interface CountryAdvancedStats {
+    countryCode: string;
+    hitRate: string;
+    averagePoints: string;
+    relativePoints: string;
+    count: number;
+}
+
 export interface PlayerStats {
     stats: Stats;
     enemyStats: Stats;
@@ -55,6 +75,7 @@ export interface MapData {
 
 export interface StatsGuess {
     time: number;
+    roundCountryCode: string;
+    guessCountryCode: string;
     points: number;
-    countryCode: string;
 }

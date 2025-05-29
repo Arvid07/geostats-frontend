@@ -1,4 +1,3 @@
-import type {Player} from "@/router/ContainerPage.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
@@ -13,6 +12,7 @@ import {useEffect, useState} from "react";
 import * as React from "react";
 import EditPlayerId from "@/router/components/EditPlayerId.tsx";
 import {CircleCheck, CircleX, LogOut} from "lucide-react";
+import type {Player} from "@/Components.ts";
 
 interface Props {
     isLoggedIn: boolean | null;
@@ -150,7 +150,7 @@ function UserAvatar({ isLoggedIn, player}: Props) {
                                     className={""}
                                 />
                                 {player && <img
-                                    src={"https://www.geoguessr.com/static/avatars/tiers/low-quality/tier-70.webp"}
+                                    src={"https://www.geoguessr.com/static/avatars/tiers/low-quality/tier-80.webp"}
                                     alt={"Profile Background"}
                                     className={"absolute"}
                                 />}

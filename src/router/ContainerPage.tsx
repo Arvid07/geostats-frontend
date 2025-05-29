@@ -1,26 +1,18 @@
-import HomePage from "@/router/home-page/HomePage.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
-import {useState} from "react";
+import {type ReactNode, useContext} from "react";
 import UserAvatar from "@/router/components/UserAvatar.tsx";
+import {Context} from "@/App.tsx";
 
-export interface Player {
-    id: string;
-    name: string;
-    countryCode: string;
-    avatarPin: string;
-    level: number;
-    isProUser: boolean;
-    isCreator: boolean;
-    rating?: number | null;
-    movingRating?: number | null;
-    noMoveRating?: number | null;
-    nmpzRating?: number | null;
+interface ContainerPageProps {
+    children: ReactNode;
 }
 
-function ContainerPage() {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-    const [isLinked, setIsLinked] = useState<boolean | null>(null);
-    const [player, setPlayer] = useState<Player | null>(null);
+function ContainerPage({ children }: ContainerPageProps) {
+    const {
+        isLoggedIn,
+        isLinked,
+        player
+    } = useContext(Context);
 
     function getWarningMessage() {
         if (isLoggedIn && isLinked != null && !isLinked) {
@@ -45,13 +37,7 @@ function ContainerPage() {
                 <UserAvatar isLoggedIn={isLoggedIn} player={player}/>
             </div>
             <Separator/>
-            <div className={"flex items-center justify-center h-full"}>
-                <HomePage
-                    setPlayer={setPlayer}
-                    setIsLoggedIn={setIsLoggedIn}
-                    setIsLinked={setIsLinked}
-                />
-            </div>
+            {children}
         </div>
     );
 }

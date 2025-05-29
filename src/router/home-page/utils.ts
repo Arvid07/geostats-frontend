@@ -5,7 +5,7 @@ import {
     type PlayerStats,
     type StatsGuess,
     TeamGameMode
-} from "@/router/home-page/Components.ts";
+} from "@/Components.ts";
 
 function convertFromRawStats(rawStats: StatsGuess[], startTime: number): Map<string, CountryStats> {
     const stats = new Map();
@@ -15,7 +15,7 @@ function convertFromRawStats(rawStats: StatsGuess[], startTime: number): Map<str
             return stats;
         }
 
-        const countryStats = stats.get(stat.countryCode);
+        const countryStats = stats.get(stat.roundCountryCode);
         
         if (countryStats) {
             const newStats: CountryStats = {
@@ -23,14 +23,14 @@ function convertFromRawStats(rawStats: StatsGuess[], startTime: number): Map<str
                 points: countryStats.points + stat.points
             }
             
-            stats.set(stat.countryCode, newStats);
+            stats.set(stat.roundCountryCode, newStats);
         } else {
             const startStats: CountryStats = {
                 count: 1,
                 points: stat.points
             }
             
-            stats.set(stat.countryCode, startStats);
+            stats.set(stat.roundCountryCode, startStats);
         }
     }
     

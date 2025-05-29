@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { MapData } from "../Components";
+import type { MapData } from "../../../Components.ts";
 
 interface Props {
     hoverCardRef: React.RefObject<HTMLDivElement | null>;
@@ -57,12 +57,11 @@ function HoverCard({ hoverCardRef, coordsRef, countryName, countryCode, mapData 
                 "origin-(--radix-hover-card-content-transform-origin) rounded-md border p-4 " +
                 "shadow-md outline-hidden"}
         >
-            <img className={"w-fit h-fit"} src={`https://flagsapi.com/${countryCode.toUpperCase()}/flat/64.png`}
-                 alt={`${countryName} Flag`}/>
+            <img className={"w-fit h-fit"} src={`https://flagsapi.com/${countryCode}/flat/64.png`} alt={`${countryName} Flag`}/>
             <div className={"space-y-1"}>
                 <h4 className={"text-lg font-semibold"}>{countryName}</h4>
-                <p className={"text-sm"}>Average Points: {getAveragePoints(countryCode) ?? "N/A"}</p>
-                <p className={"text-sm"}>Relative Points: {getPointsRatio(countryCode) ?? "N/A"}</p>
+                <p className={"text-sm"}>Avg. Points: {getAveragePoints(countryCode) ?? "N/A"}</p>
+                <p className={"text-sm"}>Avg. Damage: {getPointsRatio(countryCode) ?? "N/A"}</p>
                 <p className={"text-sm"}>Count: {getCount(countryCode) ?? 0}</p>
             </div>
         </div>

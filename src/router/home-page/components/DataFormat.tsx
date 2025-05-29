@@ -1,13 +1,14 @@
 import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
-import * as React from "react";
-import { DataFormat } from "../Components.ts";
+import { DataFormat } from "@/Components.ts";
+import {useContext} from "react";
+import {Context} from "@/App.tsx";
 
-interface Props {
-    dataFormat: DataFormat;
-    setDataFormat: React.Dispatch<React.SetStateAction<DataFormat>>;
-}
+export function SelectDataFormat() {
+    const {
+        dataFormat,
+        setDataFormat
+    } = useContext(Context);
 
-export function SelectDataFormat({ dataFormat, setDataFormat }: Props) {
     return (
         <Select
             value={dataFormat}
@@ -22,8 +23,8 @@ export function SelectDataFormat({ dataFormat, setDataFormat }: Props) {
                 <SelectGroup>
                     <SelectLabel>Data Format</SelectLabel>
                     <SelectItem value={DataFormat.Absolute}>Absolute</SelectItem>
-                    <SelectItem value={DataFormat.RelativeEnemy}>Relative to Enemy</SelectItem>
-                    <SelectItem value={DataFormat.RelativeCountry}>Relative to Country</SelectItem>
+                    <SelectItem value={DataFormat.Damage}>Damage</SelectItem>
+                    <SelectItem value={DataFormat.Country}>Country</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>
