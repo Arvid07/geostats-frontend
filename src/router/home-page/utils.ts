@@ -4,7 +4,7 @@ import {
     type MapData,
     type PlayerStats,
     type StatsGuess,
-    TeamGameMode
+    TeamGameMode, Time
 } from "@/Components.ts";
 
 function convertFromRawStats(rawStats: StatsGuess[], startTime: number): Map<string, CountryStats> {
@@ -41,7 +41,7 @@ export function setMapDataFromResponse(
     setMapData: React.Dispatch<React.SetStateAction<MapData | null>>,
     rawStats: PlayerStats,
     gameMode: TeamGameMode,
-    time: number
+    time: Time
 ) {
     switch (gameMode) {
         case TeamGameMode.Duels: {
@@ -73,12 +73,6 @@ export function setMapDataFromResponse(
             setMapData({
                 stats: convertFromRawStats(rawStats.stats.teamFun, time),
                 enemyStats: convertFromRawStats(rawStats.enemyStats.teamFun, time)
-            });
-            break;
-        case TeamGameMode.Ranked:
-            setMapData({
-                stats: convertFromRawStats(rawStats.stats.duels, time),
-                enemyStats: convertFromRawStats(rawStats.enemyStats.duels, time)
             });
             break;
     }

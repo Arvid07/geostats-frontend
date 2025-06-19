@@ -1,3 +1,5 @@
+import {getMonday} from "@/utils.tsx";
+
 export interface Player {
     id: string;
     name: string;
@@ -23,17 +25,16 @@ export enum TeamGameMode {
     DuelsRanked = "DuelsRanked",
     TeamDuels = "TeamDuels",
     TeamDuelsRanked = "TeamDuelsRanked",
-    TeamFun = "TeamFun",
-    Ranked = "Ranked"
+    TeamFun = "TeamFun"
 }
 
 export enum Time {
-    AllTime = "AllTime",
-    ThisWeek = "ThisWeek",
-    Last7Days = "Last7Days",
-    Last30Days = "Last30Days",
-    LastYear = "LastYear",
-    Custom = "Custom"
+    AllTime = 0,
+    ThisWeek = getMonday(),
+    Last7Days = new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
+    Last30Days = new Date().getTime() - 30 * 24 * 60 * 60 * 1000,
+    LastYear = new Date().getTime() - 365 * 24 * 60 * 60 * 1000,
+    Custom = -1
 }
 
 export interface StatsResponse {
@@ -57,9 +58,22 @@ export interface CountryStats {
 
 export interface CountryAdvancedStats {
     countryCode: string;
-    hitRate: string;
-    averagePoints: string;
-    relativePoints: string;
+    countryName: string;
+    continent: string;
+    hitRate: number;
+    enemyHitRate: number;
+    averagePoints: number;
+    averageEnemyPoints: number;
+    averageDamage: number;
+    count: number;
+}
+
+export interface AverageStats {
+    hitRate: number;
+    enemyHitRate: number;
+    averagePoints: number;
+    averageEnemyPoints: number;
+    averageDamage: number;
     count: number;
 }
 
@@ -78,4 +92,9 @@ export interface StatsGuess {
     roundCountryCode: string;
     guessCountryCode: string;
     points: number;
+}
+
+export interface Country {
+    continent: string,
+    id: string
 }

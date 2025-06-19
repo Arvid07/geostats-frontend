@@ -17,7 +17,7 @@ export function SelectDataFormat() {
             }}
         >
             <SelectTrigger>
-                <SelectValue placeholder={"Data format"}/>
+                <SelectValue/>
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>

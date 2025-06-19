@@ -52,7 +52,7 @@ function VerifyEmailForm({ codeExpireDate, inVerifyProcess, setInVerifyProcess, 
                             <span className={"font-bold"}>{email}</span>
                         </div>
                         <p>Please check your inbox and enter the verification code below to verify your email address.
-                            {codeExpireDate && `The code will expire at ${codeExpireDate.toLocaleTimeString()}`}
+                            {codeExpireDate && ` The code will expire at ${codeExpireDate.toLocaleTimeString()}`}
                         </p>
                     </CardDescription>
                 </CardHeader>

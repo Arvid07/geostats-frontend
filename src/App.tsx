@@ -6,8 +6,16 @@ import CountriesPage from "@/router/countries-page/CountriesPage.tsx";
 import * as React from "react";
 import {useState} from "react";
 import HomePage from "@/router/home-page/HomePage.tsx";
-import {DataFormat, type MapData, type Player, type PlayerStats, TeamGameMode, Time} from "@/Components.ts";
+import {
+    DataFormat,
+    type MapData,
+    type Player,
+    type PlayerStats,
+    TeamGameMode,
+    Time
+} from "@/Components.ts";
 import data from "@/router/home-page/map/data.json";
+import CountryPage from "@/router/country-page/CountryPage.tsx";
 
 interface ContextType {
     dataFormat: DataFormat;
@@ -26,7 +34,7 @@ interface ContextType {
     setIsLinked: React.Dispatch<React.SetStateAction<boolean | null>>;
     player: Player | null;
     setPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
-    countryIds: string[];
+    countries: Map<string, string>
 }
 
 // eslint-disable-next-line
@@ -44,9 +52,11 @@ function App() {
     const [isLinked, setIsLinked] = useState<boolean | null>(null);
     const [player, setPlayer] = useState<Player | null>(null);
 
-    const countryIds = data
-        .filter((country) => country.id !== null && country.fill !== "url(#striped-pattern)")
-        .map((country) => country.id!);
+    const countries: Map<string, string> = new Map(
+        data
+            .filter(country => country.id != null && country.fill !== "url(#striped-pattern)")
+            .map(raw => [raw.id!, raw.region!] as [string, string])
+    );
 
     return (
         <Context.Provider value={{
@@ -58,7 +68,7 @@ function App() {
             isLoggedIn, setIsLoggedIn,
             isLinked, setIsLinked,
             player, setPlayer,
-            countryIds
+            countries
         }}>
             <div className={"font-geist"}>
                 <ThemeProvider defaultTheme={"dark"} storageKey={"vite-ui-theme"}>
@@ -68,6 +78,7 @@ function App() {
                             <Route path={"/login"} element={<LoginPage/>}/>
                             <Route path={"/signup"} element={<SignUpPage/>}/>
                             <Route path={"/countries"} element={<CountriesPage/>}/>
+                            <Route path={"/countries/:countryCode"} element={<CountryPage/>}/>
                         </Routes>
                     </BrowserRouter>
                 </ThemeProvider>

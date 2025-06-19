@@ -17,7 +17,7 @@ export function SelectGameModes() {
             }}
         >
             <SelectTrigger>
-                <SelectValue placeholder={"Game Mode"}/>
+                <SelectValue/>
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
@@ -26,7 +26,6 @@ export function SelectGameModes() {
                     <SelectItem value={TeamGameMode.Duels}>Duels</SelectItem>
                     <SelectItem value={TeamGameMode.TeamDuelsRanked}>Competitive Team Duels</SelectItem>
                     <SelectItem value={TeamGameMode.TeamDuels}>Team Duels</SelectItem>
-                    <SelectItem value={TeamGameMode.Ranked}>Competitive</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>

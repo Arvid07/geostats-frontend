@@ -11,23 +11,23 @@ export function SelectTime() {
 
     return (
         <Select
-            value={time}
+            value={time.toString()}
             onValueChange={(value) => {
-                setTime(value as Time);
+                setTime(Number(value) as Time);
             }}
         >
             <SelectTrigger>
-                <SelectValue placeholder={"Time"}/>
+                <SelectValue/>
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Time</SelectLabel>
-                    <SelectItem value={Time.AllTime}>All Time</SelectItem>
-                    <SelectItem value={Time.ThisWeek}>This Week</SelectItem>
-                    <SelectItem value={Time.Last7Days}>Last 7 days</SelectItem>
-                    <SelectItem value={Time.Last30Days}>Last 30 days</SelectItem>
-                    <SelectItem value={Time.LastYear}>Last Year</SelectItem>
-                    <SelectItem value={Time.Custom}>Custom</SelectItem>
+                    <SelectItem value={Time.AllTime.toString()}>All Time</SelectItem>
+                    <SelectItem value={Time.ThisWeek.toString()}>This Week</SelectItem>
+                    <SelectItem value={Time.Last7Days.toString()}>Last 7 days</SelectItem>
+                    <SelectItem value={Time.Last30Days.toString()}>Last 30 days</SelectItem>
+                    <SelectItem value={Time.LastYear.toString()}>Last Year</SelectItem>
+                    <SelectItem value={Time.Custom.toString()}>Custom</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>

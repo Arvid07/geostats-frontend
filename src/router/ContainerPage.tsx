@@ -31,7 +31,7 @@ function ContainerPage({ children }: ContainerPageProps) {
             {getWarningMessage()}
             <div className={"flex flex-row w-full items-center justify-between p-4 px-6"}>
                 <div className={"flex flex-row items-center justify-center"}>
-                    <img className={"h-fit mr-3"} src={"public/vite.svg"} alt={"icon"}/>
+                    <img className={"h-fit mr-3"} src={"/vite.svg"} alt={"icon"}/>
                     <p className={"text-2xl"}>Geo Stats</p>
                 </div>
                 <UserAvatar isLoggedIn={isLoggedIn} player={player}/>

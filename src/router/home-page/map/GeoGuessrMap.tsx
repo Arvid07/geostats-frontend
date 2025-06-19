@@ -1,10 +1,10 @@
 import {ComposableMap, ZoomableGroup} from "react-simple-maps";
 import {useContext, useEffect, useRef, useState} from "react";
-import * as React from "react";
 import data from "./data.json";
-import HoverCard from "@/router/home-page/map/HoverCard.tsx";
-import {DataFormat} from "@/Components.ts";
+import HoverCard from "@/router/components/HoverCard.tsx";
 import {Context} from "@/App.tsx";
+import {getFillColorCalculated, handleMouseMove} from "@/router/utils.ts";
+import {useNavigate} from "react-router-dom";
 
 function GeoGuessrMap() {
     const coordsRef = useRef({ x: 0, y: 0 });
@@ -13,10 +13,14 @@ function GeoGuessrMap() {
 
     const [countryCode, setCountryCode] = useState<string | null>(null);
     const [countryName, setCountryName] = useState("");
+    const [hasCoverage, setHasCoverage] = useState(false);
+
+    const navigate = useNavigate();
 
     const {
         mapData,
-        dataFormat
+        dataFormat,
+        countries
     } = useContext(Context);
 
     useEffect(() => {
@@ -24,88 +28,72 @@ function GeoGuessrMap() {
             return;
         }
 
-        const countryNames = new Intl.DisplayNames(["en"], {type: "region"})
+        const countryNames = new Intl.DisplayNames(["en"], {type: "region"});
         setCountryName(countryNames.of(countryCode)!);
     }, [countryCode]);
-
-    useEffect(() => {
-        return () => {
-            if (hoverTimerRef.current) {
-                window.clearTimeout(hoverTimerRef.current)
-            }
-        }
-    }, [])
-
-    function handleMouseMove(event: React.MouseEvent<SVGSVGElement, MouseEvent>) {
-        coordsRef.current = { x: event.clientX, y: event.clientY };
-
-        if (hoverCardRef.current) {
-            hoverCardRef.current.style.left = `${coordsRef.current.x + 10}px`;
-            hoverCardRef.current.style.top = `${coordsRef.current.y + 10}px`;
-
-            hoverCardRef.current.hidden = true;
-        }
-
-        if (hoverTimerRef.current) {
-            window.clearTimeout(hoverTimerRef.current);
-        }
-
-        hoverTimerRef.current = window.setTimeout(() => {
-            if (hoverCardRef.current) {
-                hoverCardRef.current.hidden = false;
-            }
-        }, 350);
-    }
 
     function getCountryColor(countryId: string) {
         if (mapData) {
             const stats = mapData.stats.get(countryId);
             const enemyStats = mapData.enemyStats.get(countryId);
 
-            switch (dataFormat) {
-                case DataFormat.Absolute:
-                    if (stats) {
-                        return `hsl(${120 * (stats.points / stats.count) / 5000}, 100%, 50%)`;
-                    }
-                    break
-                case DataFormat.Damage:
-                    if (stats && enemyStats) {
-                        const relativePoints = ((stats.points / stats.count) - (enemyStats.points / enemyStats.count) + 5000) / 10000;
-                        return `hsl(${120 * getRelativePoints(relativePoints)}, 100%, 50%)`;
-                    }
-                    break;
-                case DataFormat.Country:
-                    break;
+            if (stats) {
+                return getFillColorCalculated(dataFormat, stats?.points ?? 0, enemyStats?.points ?? 0, stats?.count ?? 0, enemyStats?.count ?? 0);
             }
         }
     }
 
-    function getRelativePoints(x: number) {
-        return 0.5
-            + (67043/16038) * (x - 0.5)
-            - (2746255/37422) * Math.pow(x - 0.5, 3)
-            + (3216250/6237) * Math.pow(x - 0.5, 5)
-            - (61300000/56133) * Math.pow(x - 0.5, 7);
+    function getAverageDamage(countryCode: string) {
+        if (mapData) {
+            const stats = mapData.stats.get(countryCode);
+            const enemyStats = mapData.enemyStats.get(countryCode);
+            if (stats && enemyStats) {
+                return <p className={"text-sm"}>Avg. Damage: {Math.round((stats.points / stats.count) - (enemyStats.points / enemyStats.count))}</p>;
+            }
+        }
+
+        return <p className={"text-sm"}>Avg. Damage: N/A</p>;
     }
 
-    function getCountries() {
-        return data.map((country) => (
-            <path
-                id={country.id ?? undefined}
-                className={country.className ?? undefined}
-                d={country.d}
-                stroke={country.stroke ?? undefined}
-                fill={getCountryColor(country.id ?? "") ?? country.fill}
-                onMouseOver={() => setCountryCode(country.id ?? "")}
-                onMouseLeave={() => setCountryCode(null)}
-            />
-        ));
+    function getAveragePoints(countryCode: string) {
+        if (mapData) {
+            const stats = mapData.stats.get(countryCode);
+
+            if (stats) {
+                return <p className={"text-sm"}>Avg. Points: {Math.round(stats.points / stats.count)}</p>;
+            }
+        }
+
+        return <p className={"text-sm"}>Avg. Points: N/A</p>;
+    }
+
+    function getCount(countryCode: string) {
+        if (mapData) {
+            const stats = mapData.stats.get(countryCode);
+
+            if (stats) {
+                return <p className={"text-sm"}>Count: {stats.count}</p>;
+            }
+        }
+
+        return <p className={"text-sm"}>Count: 0</p>;
     }
 
     return (
         <div className={"flex items-center justify-center bg-card w-225 h-150 overflow-hidden rounded-xl"}>
             { countryCode && (
-                <HoverCard hoverCardRef={hoverCardRef} coordsRef={coordsRef} countryCode={countryCode} countryName={countryName} mapData={mapData}/>
+                <HoverCard
+                    hoverCardRef={hoverCardRef}
+                    coordsRef={coordsRef}
+                    regionCode={countryCode}
+                    subRegionCode={null}
+                    regionName={countryName}
+                    getAbsoluteData={getAveragePoints}
+                    getDamageData={getAverageDamage}
+                    getCount={getCount}
+                    flagSrc={(countryCode) => `https://raw.githubusercontent.com/amckenna41/iso3166-flag-icons/20ca9f16a84993a89cedd1238e4363bd50175d87/iso3166-1-icons/${countryCode.toLowerCase()}.svg`}
+                    hasCoverage={hasCoverage}
+                />
             )}
             <ComposableMap>
                 <ZoomableGroup
@@ -116,7 +104,7 @@ function GeoGuessrMap() {
                         [839.25, 546.5]
                     ]}
                     style={{cursor: "initial"}}
-                    onMouseMove={handleMouseMove}
+                    onMouseMove={(event) => handleMouseMove(event, coordsRef, hoverCardRef, hoverTimerRef)}
                     onMove={() => {
                         if (hoverCardRef.current) {
                             hoverCardRef.current.hidden = true;
@@ -124,12 +112,51 @@ function GeoGuessrMap() {
                     }}
                 >
                     <defs>
-                        <pattern id={"striped-pattern"} width={"5"} height={"5"} patternUnits={"userSpaceOnUse"}
-                                 patternTransform={"rotate(45 50 50)"}>
-                            <line stroke={"#ffffff25"} strokeWidth={"5px"} y2={"10"}></line>
+                        <pattern id={"striped-pattern"} width={"5"} height={"5"} patternUnits={"userSpaceOnUse"} patternTransform={"rotate(45 50 50)"}>
+                            <line stroke={"#ffffff25"} strokeWidth={"5px"} y2={"10"}/>
                         </pattern>
                     </defs>
-                    {getCountries()}
+                    {data.map((country) => {
+                        if (country.id && countries.has(country.id)) {
+                            return (
+                                <path
+                                    id={country.id}
+                                    className={country.className ?? undefined}
+                                    d={country.d}
+                                    stroke={country.stroke ?? undefined}
+                                    fill={getCountryColor(country.id ?? "") ?? country.fill}
+                                    onMouseOver={(event) => {
+                                        setCountryCode(country.id ?? "");
+                                        event.currentTarget.style.cursor = "pointer";
+                                        setHasCoverage(true);
+                                    }}
+                                    onMouseLeave={(event) => {
+                                        setCountryCode(null);
+                                        event.currentTarget.style.cursor = "default";
+                                    }}
+                                    onClick={() => navigate(`/countries/${country.id.toLowerCase()}`)}
+                                />
+                            )
+                        } else {
+                            return (
+                                <path
+                                    id={country.id ?? undefined}
+                                    className={country.className ?? undefined}
+                                    d={country.d}
+                                    stroke={country.stroke ?? undefined}
+                                    fill={getCountryColor(country.id ?? "") ?? country.fill}
+                                    onMouseOver={() => {
+                                        setCountryCode(country.id ?? "");
+                                        setHasCoverage(false);
+                                    }}
+                                    onMouseLeave={(event) => {
+                                        setCountryCode(null);
+                                        event.currentTarget.style.cursor = "default";
+                                    }}
+                                />
+                            )
+                        }
+                    })}
                 </ZoomableGroup>
             </ComposableMap>
         </div>
