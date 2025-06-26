@@ -20,7 +20,7 @@ export async function getCountryData<T = unknown>(code: string): Promise<T> {
 }
 
 export async function getRegionData<T = unknown>(code: string): Promise<T | null> {
-    const path = `/src/data/${code}-Region.json`;
+    const path = `/src/data/${code}-Regions.json`;
     const importer = modules[path];
     if (!importer) {
         return null;

@@ -1,0 +1,28 @@
+# Ecuador Subdivisions 🇪🇨
+
+Source: https://en.wikipedia.org/wiki/ISO_3166-2:EC
+
+* EC-A (Azuay) -> [EC-A.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-A.svg)
+* EC-B (Bolívar) -> [EC-B.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-B.svg)
+* EC-C (Carchi) -> [EC-C.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-C.svg)
+* EC-D (Orellana) -> [EC-D.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-D.svg)
+* EC-E (Esmeraldas) -> [EC-E.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-E.svg)
+* EC-F (Cañar) -> [EC-F.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-F.svg)
+* EC-G (Guayas) -> [EC-G.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-G.svg)
+* EC-H (Chimborazo) -> [EC-H.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-H.svg)
+* EC-I (Imbabura) -> [EC-I.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-I.svg)
+* EC-L (Loja) -> [EC-L.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-L.svg)
+* EC-M (Manabí) -> [EC-M.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-M.svg)
+* EC-N (Napo) -> [EC-N.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-N.svg)
+* EC-O (El Oro) -> [EC-O.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-O.svg)
+* EC-P (Pichincha) -> [EC-P.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-P.svg)
+* EC-R (Los Ríos) -> [EC-R.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-R.svg)
+* EC-S (Morona Santiago) -> [EC-S.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-S.svg)
+* EC-SD (Santo Domingo De Los Tsáchilas) -> [EC-SD.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-SD.svg)
+* EC-SE (Santa Elena) -> [EC-SE.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-SE.svg)
+* EC-T (Tungurahua) -> [EC-T.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-T.svg)
+* EC-U (Sucumbíos) -> [EC-U.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-U.svg)
+* EC-W (Galápagos) -> [EC-W.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-W.svg)
+* EC-X (Cotopaxi) -> [EC-X.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-X.svg)
+* EC-Y (Pastaza) -> [EC-Y.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-Y.svg)
+* EC-Z (Zamora Chinchipe) -> [EC-Z.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/EC/EC-Z.svg)

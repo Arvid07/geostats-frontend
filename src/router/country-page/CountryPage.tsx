@@ -1,24 +1,21 @@
 import {useParams} from "react-router-dom";
 import ContainerPage from "@/router/ContainerPage.tsx";
 import {useContext, useEffect, useState} from "react";
-import type {
-    CountryStatsResponse,
-    Stats,
-    StatsGuess,
-    TeamStatsGuess
-} from "@/router/country-page/components/Components.ts";
+import type {CountryStatsResponse, Stats} from "@/router/country-page/components/Components.ts";
 import {Context} from "@/App.tsx";
-import {TeamGameMode} from "@/Components.ts";
 import {
     getCountryName,
     getDuelsStats,
+    getSoloStats,
     getTeamDuelsStats,
-    type SubdivisionAdvancedStats
+    type SubdivisionFullStats
 } from "@/router/country-page/utils.ts";
 import CountryMap from "@/router/country-page/components/CountryMap.tsx";
 import type {SubdivisionInfo} from "@/router/country-page/components/utils.ts";
 import {getCountryData, getRegionData} from "@/utils.tsx";
 import DataTable from "@/router/country-page/components/DataTable.tsx";
+import {GameMode} from "@/Components.ts";
+import {DataView} from "@/router/countries-page/components/CustomizeData.tsx";
 
 export type CountryMapData = {
     width: number;
@@ -41,6 +38,7 @@ export type RegionMapData = {
 }
 
 export type RegionData = {
+    id: string;
     name: string;
     hasCoverage: boolean;
     d: string;
@@ -57,13 +55,16 @@ function CountryPage() {
     const {countryCode} = useParams<{countryCode: string}>();
 
     const [rawStats, setRawStats] = useState<Stats | null>(null);
-    const [rawGameModeStats, setRawGameModeStats] = useState<StatsGuess[] | TeamStatsGuess[] | null>(null);
-    const [countryMapData, setCountryMapData] = useState<CountryMapData | null>(null);
-    const [, setRegionMapData] = useState<RegionMapData | null>(null);
     const [viewBox, setViewBox] = useState<ViewBox | null>(null);
-    const [subdivisionStats, setSubdivisionStats] = useState<Map<string, SubdivisionAdvancedStats>>(new Map())
+    const [mapData, setMapData] = useState<CountryMapData | RegionMapData | null>(null);
+    const [regionMapData, setRegionMapData] = useState<RegionMapData | null>(null);
+    const [countryMapData, setCountryMapData] = useState<CountryMapData | null>(null);
+    const [subdivisionStats, setSubdivisionStats] = useState<Map<string, SubdivisionFullStats>>(new Map());
+    const [regionStats, setRegionStats] = useState<Map<string, SubdivisionFullStats>>(new Map());
     const [subdivisions, setSubdivisions] = useState<Map<string, SubdivisionInfo> | null>(null);
-
+    const [regions, setRegions] = useState<Map<string, string[]> | null>(null);
+    const [dataView, setDataView] = useState<Set<DataView>>(new Set());
+    
     const countryName = getCountryName(countryCode);
 
     const {
@@ -119,22 +120,34 @@ function CountryPage() {
         }
 
         getCountryData<CountryMapData>(countryCode.toUpperCase())
-            .then((countryMapData) => {
-                setCountryMapData(countryMapData);
-                setViewBox({
-                    x: 0,
-                    y: 0,
-                    width: countryMapData.width,
-                    height: countryMapData.height
-                })
-            })
-            .catch((e) => console.log(e));
+            .then(setCountryMapData);
 
         getRegionData<RegionMapData>(countryCode.toUpperCase())
-            .then((regionMapData) => {
-                setRegionMapData(regionMapData);
-            });
+            .then(setRegionMapData);
     }, [countryCode]);
+
+    useEffect(() => {
+        if (dataView.has(DataView.Region) && regionMapData) {
+            setMapData(regionMapData);
+
+            setViewBox({
+                x: 0,
+                y: 0,
+                width: regionMapData.width,
+                height: regionMapData.height
+            });
+        }
+        else if (countryMapData) {
+            setMapData(countryMapData);
+
+            setViewBox({
+                x: 0,
+                y: 0,
+                width: countryMapData.width,
+                height: countryMapData.height
+            });
+        }
+    }, [countryMapData, dataView, regionMapData]);
 
     useEffect(() => {
         if (!countryMapData) {
@@ -156,35 +169,83 @@ function CountryPage() {
     }, [countryMapData]);
 
     useEffect(() => {
+        if (!regionMapData || !subdivisions) {
+            return;
+        }
+        
+        const regionMap = new Map<string, string[]>();
+
+        for (const [id, info] of subdivisions) {
+            if (!regionMap.has(info.region)) {
+                regionMap.set(info.region, [id])
+            } else {
+                const subdivisionsInRegion = regionMap.get(info.region)!;
+                subdivisionsInRegion.push(id);
+
+                regionMap.set(info.region, subdivisionsInRegion);
+            }
+        }
+        
+        setRegions(regionMap);
+    }, [regionMapData, subdivisions]);
+
+    useEffect(() => {
         if (!rawStats || !subdivisions) {
             return;
         }
 
         switch (gameMode) {
-            case TeamGameMode.Duels: {
+            case GameMode.Solo:
+                setSubdivisionStats(getSoloStats(rawStats.solo, subdivisions, time));
+                break;
+            case GameMode.Duels: {
                 setSubdivisionStats(getDuelsStats(rawStats.duels, subdivisions, time));
-                setRawGameModeStats(rawStats.duels);
                 break;
             }
-            case TeamGameMode.DuelsRanked: {
+            case GameMode.DuelsRanked: {
                 setSubdivisionStats(getDuelsStats(rawStats.duelsRanked, subdivisions, time));
-                setRawGameModeStats(rawStats.duelsRanked);
                 break;
             }
-            case TeamGameMode.TeamDuels:
+            case GameMode.TeamDuels:
                 setSubdivisionStats(getTeamDuelsStats(rawStats.teamDuels, subdivisions, time));
-                setRawGameModeStats(rawStats.teamDuels);
                 break;
-            case TeamGameMode.TeamDuelsRanked:
+            case GameMode.TeamDuelsRanked:
                 setSubdivisionStats(getTeamDuelsStats(rawStats.teamDuelsRanked, subdivisions, time));
-                setRawGameModeStats(rawStats.teamDuelsRanked);
                 break;
-            case TeamGameMode.TeamFun:
+            case GameMode.TeamFun:
                 setSubdivisionStats(getTeamDuelsStats(rawStats.teamFun, subdivisions, time));
-                setRawGameModeStats(rawStats.teamFun);
                 break;
         }
-    }, [gameMode, rawStats, time, subdivisions]);
+    }, [gameMode, rawStats, time, subdivisions, dataView]);
+
+    useEffect(() => {
+        if (!rawStats || !subdivisions || !regions || !dataView.has(DataView.Region)) {
+            return;
+        }
+
+        switch (gameMode) {
+            case GameMode.Solo:
+                setRegionStats(getSoloStats(rawStats.solo, subdivisions, time, true));
+                break;
+            case GameMode.Duels: {
+                setRegionStats(getDuelsStats(rawStats.duels, subdivisions, time, true));
+                break;
+            }
+            case GameMode.DuelsRanked: {
+                setRegionStats(getDuelsStats(rawStats.duelsRanked, subdivisions, time, true));
+                break;
+            }
+            case GameMode.TeamDuels:
+                setRegionStats(getTeamDuelsStats(rawStats.teamDuels, subdivisions, time, true));
+                break;
+            case GameMode.TeamDuelsRanked:
+                setRegionStats(getTeamDuelsStats(rawStats.teamDuelsRanked, subdivisions, time, true));
+                break;
+            case GameMode.TeamFun:
+                setRegionStats(getTeamDuelsStats(rawStats.teamFun, subdivisions, time, true));
+                break;
+        }
+    }, [gameMode, rawStats, time, subdivisions, dataView, regions]);
 
     if (countryName) {
         return (
@@ -193,7 +254,7 @@ function CountryPage() {
                     <p className={"flex flex-row items-center justify-center gap-2 text-3xl"}>
                         <img
                             className={"w-15"}
-                            src={`https://raw.githubusercontent.com/amckenna41/iso3166-flag-icons/20ca9f16a84993a89cedd1238e4363bd50175d87/iso3166-1-icons/${countryCode?.toLowerCase()}.svg`}
+                            src={`/flags/countries/${countryCode?.toLowerCase()}.svg`}
                             alt={`${countryName} Flag`}
                         />
                         {countryName}
@@ -202,13 +263,22 @@ function CountryPage() {
                         <CountryMap
                             countryCode={countryCode}
                             subdivisionStats={subdivisionStats}
-                            countryMapData={countryMapData}
+                            regionStats={regionStats}
+                            mapData={mapData}
                             viewBox={viewBox}
                             setViewBox={setViewBox}
                         />
                         <div className={"flex bg-card w-auto h-[600px] overflow-auto rounded-xl scrollbar-hidden"}>
                             <div className={"p-10"}>
-                                <DataTable rawGameModeStats={rawGameModeStats} subdivisions={subdivisions} countryCode={countryCode}/>
+                                <DataTable
+                                    regions={regions}
+                                    subdivisions={subdivisions}
+                                    subdivisionStatsMap={subdivisionStats}
+                                    regionStatsMap={regionStats}
+                                    countryCode={countryCode}
+                                    dataView={dataView}
+                                    setDataView={setDataView}
+                                />
                             </div>
                         </div>
                     </div>

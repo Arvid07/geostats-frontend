@@ -1,0 +1,26 @@
+# Taiwan, Province of China Subdivisions 🇹🇼
+
+Source: https://en.wikipedia.org/wiki/ISO_3166-2:TW
+
+* TW-CHA (Changhua) -> [TW-CHA.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-CHA.svg)
+* TW-CYI (Chiayi) -> [TW-CYI.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-CYI.svg)
+* TW-CYQ (Chiayi) -> [TW-CYQ.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-CYQ.svg)
+* TW-HSQ (Hsinchu) -> [TW-HSQ.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-HSQ.svg)
+* TW-HSZ (Hsinchu) -> [TW-HSZ.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-HSZ.svg)
+* TW-HUA (Hualien) -> [TW-HUA.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-HUA.svg)
+* TW-ILA (Yilan) -> [TW-ILA.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-ILA.svg)
+* TW-KEE (Keelung) -> [TW-KEE.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-KEE.svg)
+* TW-KHH (Kaohsiung) -> [TW-KHH.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-KHH.svg)
+* TW-KIN (Kinmen) -> [TW-KIN.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-KIN.svg)
+* TW-LIE (Lienchiang) -> [TW-LIE.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-LIE.svg)
+* TW-MIA (Miaoli) -> [TW-MIA.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-MIA.svg)
+* TW-NAN (Nantou) -> [TW-NAN.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-NAN.svg)
+* TW-NWT (New Taipei) -> [TW-NWT.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-NWT.svg)
+* TW-PEN (Penghu) -> [TW-PEN.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-PEN.svg)
+* TW-PIF (Pingtung) -> [TW-PIF.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-PIF.svg)
+* TW-TAO (Taoyuan) -> [TW-TAO.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-TAO.svg)
+* TW-TNN (Tainan) -> [TW-TNN.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-TNN.svg)
+* TW-TPE (Taipei) -> [TW-TPE.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-TPE.svg)
+* TW-TTT (Taitung) -> [TW-TTT.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-TTT.svg)
+* TW-TXG (Taichung) -> [TW-TXG.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-TXG.svg)
+* TW-YUN (Yunlin) -> [TW-YUN.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/TW/TW-YUN.svg)

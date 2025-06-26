@@ -15,7 +15,7 @@ function FilterCountries({countryFilter, setCountryFilter, placeholder}: Props) 
             <Input
                 placeholder={placeholder}
                 value={countryFilter}
-                onInput={(event) => setCountryFilter(event.currentTarget.value.toLowerCase())}
+                onInput={(event) => setCountryFilter(event.currentTarget.value)}
             />
             <Button
                 className={

@@ -91,7 +91,7 @@ function GeoGuessrMap() {
                     getAbsoluteData={getAveragePoints}
                     getDamageData={getAverageDamage}
                     getCount={getCount}
-                    flagSrc={(countryCode) => `https://raw.githubusercontent.com/amckenna41/iso3166-flag-icons/20ca9f16a84993a89cedd1238e4363bd50175d87/iso3166-1-icons/${countryCode.toLowerCase()}.svg`}
+                    flagSrc={(countryCode) => `/flags/countries/${countryCode?.toLowerCase()}.svg`}
                     hasCoverage={hasCoverage}
                 />
             )}

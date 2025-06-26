@@ -1,0 +1,41 @@
+# Sri Lanka Subdivisions 🇱🇰
+
+Source: https://en.wikipedia.org/wiki/ISO_3166-2:LK
+
+* LK-1 (Western Province) -> [LK-1.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-1.png)
+* LK-2 (Central Province) -> [LK-2.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-2.png)
+* LK-22 (Matale) -> [LK-22.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-22.png)
+* LK-3 (Southern Province) -> [LK-3.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-3.png)
+* LK-4 (Northern Province) -> [LK-4.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-4.svg)
+* LK-5 (Eastern Province) -> [LK-5.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-5.png)
+* LK-6 (North Western Province) -> [LK-6.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-6.svg)
+* LK-7 (North Central Province) -> [LK-7.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-7.png)
+* LK-8 (Uva Province) -> [LK-8.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-8.svg)
+* LK-9 (Sabaragamuwa Province) -> [LK-9.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/LK/LK-9.png)
+
+Sri Lanka ISO 3166-2 subdivisions with no available flags (https://en.wikipedia.org/wiki/ISO_3166-2:LK):
+
+* LK-11: Colombo (District)
+* LK-12: Gampaha (District)
+* LK-13: Kalutara (District)
+* LK-21: Kandy (District)
+* LK-23: Nuwara Eliya (District)
+* LK-31: Galle (District)
+* LK-32: Matara (District)
+* LK-33: Hambantota (District)
+* LK-41: Jaffna (District)
+* LK-42: Kilinochchi (District)
+* LK-43: Mannar (District)
+* LK-44: Vavuniya (District)
+* LK-45: Mullaittivu (District)
+* LK-51: Batticaloa (District)
+* LK-52: Ampara (District)
+* LK-53: Trincomalee (District)
+* LK-61: Kurunegala (District)
+* LK-62: Puttalam (District)
+* LK-71: Anuradhapura (District)
+* LK-72: Polonnaruwa (District)
+* LK-81: Badulla (District)
+* LK-82: Monaragala (District)
+* LK-91: Ratnapura (District)
+* LK-92: Kegalla (District)

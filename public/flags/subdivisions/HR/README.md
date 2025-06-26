@@ -1,0 +1,25 @@
+# Croatia Subdivisions 🇭🇷
+
+Source: https://en.wikipedia.org/wiki/ISO_3166-2:HR
+
+* HR-01 (Zagrebačka Županija) -> [HR-01.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-01.svg)
+* HR-02 (Krapinsko-Zagorska Županija) -> [HR-02.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-02.svg)
+* HR-03 (Sisačko-Moslavačka Županija) -> [HR-03.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-03.png)
+* HR-04 (Karlovačka Županija) -> [HR-04.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-04.svg)
+* HR-05 (Varaždinska Županija) -> [HR-05.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-05.png)
+* HR-06 (Koprivničko-Križevačka Županija) -> [HR-06.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-06.png)
+* HR-07 (Bjelovarsko-Bilogorska Županija) -> [HR-07.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-07.png)
+* HR-08 (Primorsko-Goranska Županija) -> [HR-08.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-08.png)
+* HR-09 (Ličko-Senjska Županija) -> [HR-09.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-09.png)
+* HR-10 (Virovitičko-Podravska Županija) -> [HR-10.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-10.png)
+* HR-11 (Požeško-Slavonska Županija) -> [HR-11.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-11.png)
+* HR-12 (Brodsko-Posavska Županija) -> [HR-12.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-12.svg)
+* HR-13 (Zadarska Županija) -> [HR-13.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-13.png)
+* HR-14 (Osječko-Baranjska Županija) -> [HR-14.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-14.svg)
+* HR-15 (Šibensko-Kninska Županija) -> [HR-15.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-15.svg)
+* HR-16 (Vukovarsko-Srijemska Županija) -> [HR-16.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-16.svg)
+* HR-17 (Splitsko-Dalmatinska Županija) -> [HR-17.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-17.svg)
+* HR-18 (Istarska Županija) -> [HR-18.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-18.svg)
+* HR-19 (Dubrovačko-Neretvanska Županija) -> [HR-19.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-19.png)
+* HR-20 (Međimurska Županija) -> [HR-20.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-20.svg)
+* HR-21 (Grad Zagreb) -> [HR-21.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/HR/HR-21.svg)

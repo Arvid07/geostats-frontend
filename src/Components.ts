@@ -20,7 +20,8 @@ export enum DataFormat {
     Country = "Country"
 }
 
-export enum TeamGameMode {
+export enum GameMode {
+    Solo = "Solo",
     Duels = "Duels",
     DuelsRanked = "DuelsRanked",
     TeamDuels = "TeamDuels",

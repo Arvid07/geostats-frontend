@@ -1,0 +1,26 @@
+# Mongolia Subdivisions 🇲🇳
+
+Source: https://en.wikipedia.org/wiki/ISO_3166-2:MN
+
+* MN-035 (Orhon) -> [MN-035.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-035.svg)
+* MN-037 (Darhan Uul) -> [MN-037.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-037.svg)
+* MN-039 (Hentiy) -> [MN-039.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-039.svg)
+* MN-041 (Hövsgöl) -> [MN-041.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-041.svg)
+* MN-043 (Hovd) -> [MN-043.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-043.svg)
+* MN-046 (Uvs) -> [MN-046.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-046.svg)
+* MN-047 (Töv) -> [MN-047.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-047.svg)
+* MN-049 (Selenge) -> [MN-049.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-049.svg)
+* MN-051 (Sühbaatar) -> [MN-051.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-051.svg)
+* MN-053 (Ömnögovĭ) -> [MN-053.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-053.svg)
+* MN-055 (Övörhangay) -> [MN-055.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-055.svg)
+* MN-057 (Dzavhan) -> [MN-057.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-057.svg)
+* MN-059 (Dundgovĭ) -> [MN-059.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-059.svg)
+* MN-061 (Dornod) -> [MN-061.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-061.svg)
+* MN-063 (Dornogovĭ) -> [MN-063.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-063.svg)
+* MN-064 (Govĭ-Sümber) -> [MN-064.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-064.svg)
+* MN-065 (Govĭ-Altay) -> [MN-065.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-065.svg)
+* MN-067 (Bulgan) -> [MN-067.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-067.svg)
+* MN-069 (Bayanhongor) -> [MN-069.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-069.png)
+* MN-071 (Bayan-Ölgiy) -> [MN-071.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-071.svg)
+* MN-073 (Arhangay) -> [MN-073.png](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-073.png)
+* MN-1 (Ulaanbaatar) -> [MN-1.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/MN/MN-1.svg)

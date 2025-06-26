@@ -13,15 +13,31 @@ import {CheckIcon, ChevronDownIcon} from "lucide-react";
 import * as React from "react";
 import {useContext} from "react";
 import {Context} from "@/App.tsx";
-import {TeamGameMode, Time} from "@/Components.ts";
+import {GameMode, Time} from "@/Components.ts";
 
 interface Props<E extends { [k: string]: string }> {
     e: E;
     selectedColumns: Set<E[keyof E]>;
-    setSelectedColumns: React.Dispatch<React.SetStateAction<Set<E[keyof E]>>>
+    setSelectedColumns: React.Dispatch<React.SetStateAction<Set<E[keyof E]>>>;
+    dataView?: Set<DataView>;
+    setDataView?: React.Dispatch<React.SetStateAction<Set<DataView>>>;
+    includeSolo?: boolean;
 }
 
-function CustomizeData<E extends { [k: string]: string }>({selectedColumns, setSelectedColumns, e}: Props<E>) {
+export enum DataView {
+    Region = "Region",
+    Guess = "Guess"
+}
+
+function CustomizeData<E extends { [k: string]: string }>(
+    {
+        e,
+        selectedColumns,
+        setSelectedColumns,
+        dataView,
+        setDataView,
+        includeSolo=false,
+    }: Props<E>) {
     const enumValues = Object.values(e) as E[keyof E][];
 
     const {
@@ -31,7 +47,7 @@ function CustomizeData<E extends { [k: string]: string }>({selectedColumns, setS
         setTime
     } = useContext(Context);
 
-    function handleOnClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>, key: E[keyof E]) {
+    function handleColumnChange(event: React.MouseEvent<HTMLDivElement, MouseEvent>, key: E[keyof E]) {
         event.preventDefault();
 
         setSelectedColumns((columns) => {
@@ -46,6 +62,22 @@ function CustomizeData<E extends { [k: string]: string }>({selectedColumns, setS
         });
     }
 
+    function handleDataViewChange(event: React.MouseEvent<HTMLDivElement, MouseEvent>, dataView: DataView) {
+        event.preventDefault();
+
+        setDataView!((view) => {
+            const newDataView = new Set(view);
+
+            if (newDataView.has(dataView)) {
+                newDataView.delete(dataView);
+            } else {
+                newDataView.add(dataView)
+            }
+
+            return newDataView;
+        });
+    }
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -53,13 +85,29 @@ function CustomizeData<E extends { [k: string]: string }>({selectedColumns, setS
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuSub>
+                    {dataView && <><DropdownMenuSubTrigger>View</DropdownMenuSubTrigger>
+                        <DropdownMenuPortal>
+                            <DropdownMenuSubContent>
+                                {Object.values(DataView).map(view => (
+                                    <DropdownMenuItem
+                                        className={"flex flex-row justify-between"}
+                                        onClick={(event) => handleDataViewChange(event, view)}
+                                    >
+                                        {view} {dataView.has(view) && <CheckIcon/>}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuSubContent>
+                        </DropdownMenuPortal></>
+                    }
+                </DropdownMenuSub>
+                <DropdownMenuSub>
                     <DropdownMenuSubTrigger>Columns</DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
                         <DropdownMenuSubContent>
                             {enumValues.map((key) => (
                                 <DropdownMenuItem
                                     className={"flex flex-row justify-between"}
-                                    onClick={(event) => handleOnClick(event, key)}
+                                    onClick={(event) => handleColumnChange(event, key)}
                                 >
                                     {key} {selectedColumns.has(key) && <CheckIcon/>}
                                 </DropdownMenuItem>
@@ -71,17 +119,20 @@ function CustomizeData<E extends { [k: string]: string }>({selectedColumns, setS
                     <DropdownMenuSubTrigger>Game Mode</DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
                         <DropdownMenuSubContent>
-                            <DropdownMenuItem onClick={() => setGameMode(TeamGameMode.DuelsRanked)}>
-                                Competitive Duels {gameMode === TeamGameMode.DuelsRanked && <CheckIcon/>}
+                            {includeSolo && <DropdownMenuItem onClick={() => setGameMode(GameMode.Solo)}>
+                                Solo {gameMode === GameMode.Solo && <CheckIcon/>}
+                            </DropdownMenuItem>}
+                            <DropdownMenuItem onClick={() => setGameMode(GameMode.DuelsRanked)}>
+                                Competitive Duels {gameMode === GameMode.DuelsRanked && <CheckIcon/>}
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setGameMode(TeamGameMode.Duels)}>
-                                Duels {gameMode === TeamGameMode.Duels && <CheckIcon/>}
+                            <DropdownMenuItem onClick={() => setGameMode(GameMode.Duels)}>
+                                Duels {gameMode === GameMode.Duels && <CheckIcon/>}
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setGameMode(TeamGameMode.TeamDuelsRanked)}>
-                                Competitive Team Duels {gameMode === TeamGameMode.TeamDuelsRanked && <CheckIcon/>}
+                            <DropdownMenuItem onClick={() => setGameMode(GameMode.TeamDuelsRanked)}>
+                                Competitive Team Duels {gameMode === GameMode.TeamDuelsRanked && <CheckIcon/>}
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setGameMode(TeamGameMode.TeamDuels)}>
-                                Team Duels {gameMode === TeamGameMode.TeamDuels && <CheckIcon/>}
+                            <DropdownMenuItem onClick={() => setGameMode(GameMode.TeamDuels)}>
+                                Team Duels {gameMode === GameMode.TeamDuels && <CheckIcon/>}
                             </DropdownMenuItem>
                         </DropdownMenuSubContent>
                     </DropdownMenuPortal>

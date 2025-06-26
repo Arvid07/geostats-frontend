@@ -2,10 +2,10 @@ import {Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, Table
 import ContainerPage from "@/router/ContainerPage.tsx";
 import {useContext, useEffect, useState} from "react";
 import {Context} from "@/App.tsx";
-import {type AverageStats, type CountryAdvancedStats, TeamGameMode} from "@/Components.ts";
+import {type AverageStats, type CountryAdvancedStats, GameMode} from "@/Components.ts";
 import {makePlayerStatsRequest} from "@/router/utils.ts";
 import {Button} from "@/components/ui/button.tsx";
-import {Key, type HeaderColumn, SortingDirection, getProcessedStats, getAverageStats, sortCountryStats} from "./utils";
+import {getAverageStats, getProcessedStats, type HeaderColumn, Key, sortCountryStats, SortingDirection} from "./utils";
 import FilterCountries from "@/router/countries-page/components/FilterCountries.tsx";
 import CustomizeData from "@/router/countries-page/components/CustomizeData.tsx";
 import {useNavigate} from "react-router-dom";
@@ -93,28 +93,30 @@ function CountriesPage() {
         let processedStats;
 
         switch (gameMode) {
-            case TeamGameMode.Duels:
+            case GameMode.Duels:
                 processedStats = getProcessedStats(playerStats.stats.duels, playerStats.enemyStats.duels, countries, time);
                 break;
-            case TeamGameMode.DuelsRanked:
+            case GameMode.DuelsRanked:
                 processedStats = getProcessedStats(playerStats.stats.duelsRanked, playerStats.enemyStats.duelsRanked, countries, time);
                 break;
-            case TeamGameMode.TeamDuels:
+            case GameMode.TeamDuels:
                 processedStats = getProcessedStats(playerStats.stats.teamDuels, playerStats.enemyStats.teamDuels, countries, time);
                 break;
-            case TeamGameMode.TeamDuelsRanked:
+            case GameMode.TeamDuelsRanked:
                 processedStats = getProcessedStats(playerStats.stats.teamDuelsRanked, playerStats.enemyStats.teamDuelsRanked, countries, time);
                 break;
-            case TeamGameMode.TeamFun:
+            case GameMode.TeamFun:
                 processedStats = getProcessedStats(playerStats.stats.teamFun, playerStats.enemyStats.teamFun, countries, time);
                 break;
         }
 
-        sortCountryStats(processedStats.stats, DEFAULT_SORTED_BY, DEFAULT_SORTING_DIRECTION);
+        if (processedStats) {
+            sortCountryStats(processedStats.stats, sortedBy, sortingDirection);
 
-        setAverageStats(getAverageStats(processedStats.stats, processedStats.enemyStats));
-        setCountryStats(processedStats.stats);
-        setEnemyCountryStats(processedStats.enemyStats);
+            setAverageStats(getAverageStats(processedStats.stats, processedStats.enemyStats));
+            setCountryStats(processedStats.stats);
+            setEnemyCountryStats(processedStats.enemyStats);
+        }
     }, [countries, gameMode, playerStats, time]);
 
     useEffect(() => {
@@ -193,7 +195,7 @@ function CountriesPage() {
                                             <TableCell className={"flex flex-row items-center gap-2"}>
                                                 <img
                                                     className={"w-8"}
-                                                    src={`https://raw.githubusercontent.com/amckenna41/iso3166-flag-icons/20ca9f16a84993a89cedd1238e4363bd50175d87/iso3166-1-icons/${countryStats.countryCode.toLowerCase()}.svg`}
+                                                    src={`/flags/countries/${countryStats.countryCode.toLowerCase()}.svg`}
                                                     alt={`${countryStats.countryName} Flag`}
                                                 />
                                                 {countryStats.countryName}

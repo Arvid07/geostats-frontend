@@ -9,6 +9,12 @@ export interface SingleGuess {
     subdivisionCode: string | null;
 }
 
+export interface SoloStatsGuess {
+    gameStartTime: number;
+    roundSubdivisionCode: string | null;
+    guess: SingleGuess;
+}
+
 export interface StatsGuess {
     gameStartTime: number;
     roundSubdivisionCode: string | null;
@@ -24,6 +30,7 @@ export interface TeamStatsGuess {
 }
 
 export interface Stats {
+    solo: SoloStatsGuess[];
     duels: StatsGuess[];
     duelsRanked: StatsGuess[];
     teamDuels: TeamStatsGuess[];
@@ -35,3 +42,10 @@ export interface CountryStatsResponse {
     player: Player;
     stats: Stats | null;
 }
+
+export enum Style {
+    Subdivision,
+    Region,
+    Average
+}
+

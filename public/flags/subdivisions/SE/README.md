@@ -1,0 +1,25 @@
+# Sweden Subdivisions 🇸🇪
+
+Source: https://en.wikipedia.org/wiki/ISO_3166-2:SE
+
+* SE-AB (Stockholms Län [Se-01]) -> [SE-AB.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-AB.svg)
+* SE-AC (Västerbottens Län [Se-24]) -> [SE-AC.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-AC.svg)
+* SE-BD (Norrbottens Län [Se-25]) -> [SE-BD.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-BD.svg)
+* SE-C (Uppsala Län [Se-03]) -> [SE-C.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-C.svg)
+* SE-D (Södermanlands Län [Se-04]) -> [SE-D.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-D.svg)
+* SE-E (Östergötlands Län [Se-05]) -> [SE-E.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-E.svg)
+* SE-F (Jönköpings Län [Se-06]) -> [SE-F.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-F.svg)
+* SE-G (Kronobergs Län [Se-07]) -> [SE-G.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-G.svg)
+* SE-H (Kalmar Län [Se-08]) -> [SE-H.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-H.svg)
+* SE-I (Gotlands Län [Se-09]) -> [SE-I.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-I.svg)
+* SE-K (Blekinge Län [Se-10]) -> [SE-K.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-K.svg)
+* SE-M (Skåne Län [Se-12]) -> [SE-M.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-M.svg)
+* SE-N (Hallands Län [Se-13]) -> [SE-N.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-N.svg)
+* SE-O (Västra Götalands Län [Se-14]) -> [SE-O.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-O.svg)
+* SE-S (Värmlands Län [Se-17]) -> [SE-S.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-S.svg)
+* SE-T (Örebro Län [Se-18]) -> [SE-T.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-T.svg)
+* SE-U (Västmanlands Län [Se-19]) -> [SE-U.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-U.svg)
+* SE-W (Dalarnas Län [Se-20]) -> [SE-W.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-W.svg)
+* SE-X (Gävleborgs Län [Se-21]) -> [SE-X.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-X.svg)
+* SE-Y (Västernorrlands Län [Se-22]) -> [SE-Y.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-Y.svg)
+* SE-Z (Jämtlands Län [Se-23]) -> [SE-Z.svg](https://github.com/amckenna41/iso3166-flag-icons/blob/main/iso3166-2-icons/SE/SE-Z.svg)

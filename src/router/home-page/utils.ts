@@ -4,7 +4,7 @@ import {
     type MapData,
     type PlayerStats,
     type StatsGuess,
-    TeamGameMode, Time
+    GameMode, Time
 } from "@/Components.ts";
 
 function convertFromRawStats(rawStats: StatsGuess[], startTime: number): Map<string, CountryStats> {
@@ -40,36 +40,36 @@ function convertFromRawStats(rawStats: StatsGuess[], startTime: number): Map<str
 export function setMapDataFromResponse(
     setMapData: React.Dispatch<React.SetStateAction<MapData | null>>,
     rawStats: PlayerStats,
-    gameMode: TeamGameMode,
+    gameMode: GameMode,
     time: Time
 ) {
     switch (gameMode) {
-        case TeamGameMode.Duels: {
+        case GameMode.Duels: {
             setMapData({
                 stats: convertFromRawStats(rawStats.stats.duels, time),
                 enemyStats: convertFromRawStats(rawStats.enemyStats.duels, time)
             });
             break;
         }
-        case TeamGameMode.DuelsRanked:
+        case GameMode.DuelsRanked:
             setMapData({
                 stats: convertFromRawStats(rawStats.stats.duelsRanked, time),
                 enemyStats: convertFromRawStats(rawStats.enemyStats.duelsRanked, time)
             });
             break;
-        case TeamGameMode.TeamDuels:
+        case GameMode.TeamDuels:
             setMapData({
                 stats: convertFromRawStats(rawStats.stats.teamDuels, time),
                 enemyStats: convertFromRawStats(rawStats.enemyStats.teamDuels, time)
             });
             break;
-        case TeamGameMode.TeamDuelsRanked:
+        case GameMode.TeamDuelsRanked:
             setMapData({
                 stats: convertFromRawStats(rawStats.stats.teamDuelsRanked, time),
                 enemyStats: convertFromRawStats(rawStats.enemyStats.teamDuelsRanked, time)
             });
             break;
-        case TeamGameMode.TeamFun:
+        case GameMode.TeamFun:
             setMapData({
                 stats: convertFromRawStats(rawStats.stats.teamFun, time),
                 enemyStats: convertFromRawStats(rawStats.enemyStats.teamFun, time)

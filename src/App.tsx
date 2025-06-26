@@ -7,11 +7,10 @@ import * as React from "react";
 import {useState} from "react";
 import HomePage from "@/router/home-page/HomePage.tsx";
 import {
-    DataFormat,
+    DataFormat, GameMode,
     type MapData,
     type Player,
     type PlayerStats,
-    TeamGameMode,
     Time
 } from "@/Components.ts";
 import data from "@/router/home-page/map/data.json";
@@ -20,8 +19,8 @@ import CountryPage from "@/router/country-page/CountryPage.tsx";
 interface ContextType {
     dataFormat: DataFormat;
     setDataFormat: React.Dispatch<React.SetStateAction<DataFormat>>;
-    gameMode: TeamGameMode;
-    setGameMode: React.Dispatch<React.SetStateAction<TeamGameMode>>;
+    gameMode: GameMode;
+    setGameMode: React.Dispatch<React.SetStateAction<GameMode>>;
     time: Time;
     setTime: React.Dispatch<React.SetStateAction<Time>>;
     playerStats: null | PlayerStats;
@@ -44,7 +43,7 @@ export const Context = React.createContext<ContextType>();
 
 function App() {
     const [dataFormat, setDataFormat] = useState(DataFormat.Absolute);
-    const [gameMode, setGameMode] = useState(TeamGameMode.DuelsRanked);
+    const [gameMode, setGameMode] = useState(GameMode.DuelsRanked);
     const [time, setTime] = useState(Time.AllTime);
     const [playerStats, setPlayerStats] = useState<null | PlayerStats>(null);
     const [mapData, setMapData] = useState<MapData | null>(null);
