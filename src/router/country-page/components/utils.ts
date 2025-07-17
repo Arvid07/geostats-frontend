@@ -1,15 +1,15 @@
-import {type AverageStats} from "@/Components.ts";
 import {NO_DATA} from "@/router/country-page/components/DataTable.tsx";
 import type {RegionStats, SubdivisionFullStats} from "@/router/country-page/utils.ts";
 
 export enum Key {
     Name = "Name",
-    Region = "Region",
     HitRate = "Hit Rate",
     EnemyHitRate = "Enemy Hit Rate",
     AveragePoints = "Avg. Points",
     AverageEnemyPoints = "Avg. Enemy Points",
     AverageDamage = "Avg. Damage",
+    AverageGuessTime = "Avg. Guess Time",
+    AverageEnemyGuessTime = "Avg. Enemy Guess Time",
     Count = "Count"
 }
 
@@ -35,6 +35,8 @@ export function getAverageStats(stats: SubdivisionFullStats[]) {
     let points = 0;
     let enemyPoints = 0;
     let damage = 0;
+    let guessTime = 0;
+    let enemyGuessTime = 0;
     let count = 0;
 
     for (let i = 0; i < stats.length; i++) {
@@ -43,15 +45,22 @@ export function getAverageStats(stats: SubdivisionFullStats[]) {
         points += stats[i].averagePoints !== NO_DATA ? stats[i].averagePoints * stats[i].count : 0;
         enemyPoints += stats[i].averageEnemyPoints !== NO_DATA ? stats[i].averageEnemyPoints * stats[i].count : 0;
         damage += stats[i].averageDamage !== NO_DATA ? stats[i].averageDamage * stats[i].count : 0;
+        guessTime += stats[i].averageGuessTime !== NO_DATA ? stats[i].averageGuessTime * stats[i].count : 0;
+        enemyGuessTime += stats[i].averageEnemyGuessTime !== NO_DATA ? stats[i].averageEnemyGuessTime * stats[i].count : 0;
         count += stats[i].count !== NO_DATA ? stats[i].count : 0;
     }
 
-    const averageStats: AverageStats = {
+    const averageStats: SubdivisionFullStats = {
+        id: "Total",
+        name: "Total",
+        region: "",
         hitRate: count > 0 ? Math.round(10 * hitRate / count) / 10 : NO_DATA,
         enemyHitRate: count > 0 ? Math.round(10 * enemyHitRate / count) / 10 : NO_DATA,
         averagePoints: count > 0 ? Math.round(points / count) : NO_DATA,
         averageEnemyPoints: count > 0 ? Math.round(enemyPoints / count) : NO_DATA,
         averageDamage: count > 0 ? Math.round(damage / count) : NO_DATA,
+        averageGuessTime: count > 0 ? Math.round(guessTime / count) : NO_DATA,
+        averageEnemyGuessTime: count > 0 ? Math.round(enemyGuessTime / count) : NO_DATA,
         count: count
     };
 
@@ -78,6 +87,12 @@ export function sortSubdivisionStats(subdivisionStats: SubdivisionFullStats[], s
         case Key.AverageDamage:
             subdivisionStats.sort((a, b) => a.averageDamage !== NO_DATA ? (a.averageDamage - b.averageDamage) * sortingDirection : 1);
             break;
+        case Key.AverageGuessTime:
+            subdivisionStats.sort((a, b) => a.averageGuessTime !== NO_DATA ? (a.averageGuessTime - b.averageGuessTime) * sortingDirection : 1);
+            break;
+        case Key.AverageEnemyGuessTime:
+            subdivisionStats.sort((a, b) => a.averageEnemyGuessTime !== NO_DATA ? (a.averageEnemyGuessTime - b.averageEnemyGuessTime) * sortingDirection : 1);
+            break;
         case Key.Count:
             subdivisionStats.sort((a, b) => (a.count - b.count) * sortingDirection);
             break;
@@ -103,6 +118,12 @@ export function sortRegionStats(regionStats: RegionStats[], sortedBy: Key, sorti
             break;
         case Key.AverageDamage:
             regionStats.sort((a, b) => a.average.averageDamage !== NO_DATA ? (a.average.averageDamage - b.average.averageDamage) * sortingDirection : 1);
+            break;
+        case Key.AverageGuessTime:
+            regionStats.sort((a, b) => a.average.averageGuessTime !== NO_DATA ? (a.average.averageGuessTime - b.average.averageGuessTime) * sortingDirection : 1);
+            break;
+        case Key.AverageEnemyGuessTime:
+            regionStats.sort((a, b) => a.average.averageEnemyGuessTime !== NO_DATA ? (a.average.averageEnemyGuessTime - b.average.averageEnemyGuessTime) * sortingDirection : 1);
             break;
         case Key.Count:
             regionStats.sort((a, b) => (a.average.count - b.average.count) * sortingDirection);

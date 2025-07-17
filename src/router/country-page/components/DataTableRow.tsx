@@ -54,6 +54,11 @@ function DataTableRow({subdivisionStats, selectedColumns, countryCode, style, se
                     {subdivisionStats.name}
                 </TableCell>
             }
+            {style === Style.Average &&
+                <TableCell hidden={!selectedColumns.has(Key.Name)} className={"flex flex-row items-center gap-2"}>
+                    Total
+                </TableCell>
+            }
             <TableCell hidden={!selectedColumns.has(Key.HitRate)} className={"pl-6"}>
                 {subdivisionStats.hitRate !== NO_DATA ? subdivisionStats.hitRate + "%" : "-"}
             </TableCell>
@@ -68,6 +73,12 @@ function DataTableRow({subdivisionStats, selectedColumns, countryCode, style, se
             </TableCell>
             <TableCell hidden={!selectedColumns.has(Key.AverageDamage)} className={"pl-6"}>
                 {subdivisionStats.averageDamage !== NO_DATA ? subdivisionStats.averageDamage : "-"}
+            </TableCell>
+            <TableCell hidden={!selectedColumns.has(Key.AverageGuessTime)} className={"pl-6"}>
+                {subdivisionStats.averageGuessTime !== NO_DATA ? subdivisionStats.averageGuessTime : "-"}
+            </TableCell>
+            <TableCell hidden={!selectedColumns.has(Key.AverageEnemyGuessTime)} className={"pl-6"}>
+                {subdivisionStats.averageEnemyGuessTime !== NO_DATA ? subdivisionStats.averageEnemyGuessTime : "-"}
             </TableCell>
             <TableCell hidden={!selectedColumns.has(Key.Count)} className={"text-right pr-6"}>
                 {subdivisionStats.count}

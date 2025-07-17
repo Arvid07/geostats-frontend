@@ -29,6 +29,12 @@ export enum GameMode {
     TeamFun = "TeamFun"
 }
 
+export enum GeoMode {
+    Moving = "Moving",
+    NoMove = "NoMove",
+    NMPZ = "NMPZ"
+}
+
 export enum Time {
     AllTime = 0,
     ThisWeek = getMonday(),
@@ -75,6 +81,8 @@ export interface AverageStats {
     averagePoints: number;
     averageEnemyPoints: number;
     averageDamage: number;
+    averageGuessTime: number;
+    averageEnemyGuessTime: number;
     count: number;
 }
 

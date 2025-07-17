@@ -3,19 +3,12 @@ import ContainerPage from "@/router/ContainerPage.tsx";
 import {useContext, useEffect, useState} from "react";
 import type {CountryStatsResponse, Stats} from "@/router/country-page/components/Components.ts";
 import {Context} from "@/App.tsx";
-import {
-    getCountryName,
-    getDuelsStats,
-    getSoloStats,
-    getTeamDuelsStats,
-    type SubdivisionFullStats
-} from "@/router/country-page/utils.ts";
+import {getCountryName, getDuelsStats, getMaps, getSoloStats, getTeamDuelsStats, type MapInfo, type SubdivisionFullStats} from "@/router/country-page/utils.ts";
 import CountryMap from "@/router/country-page/components/CountryMap.tsx";
-import type {SubdivisionInfo} from "@/router/country-page/components/utils.ts";
+import {type SubdivisionInfo} from "@/router/country-page/components/utils.ts";
 import {getCountryData, getRegionData} from "@/utils.tsx";
-import DataTable from "@/router/country-page/components/DataTable.tsx";
-import {GameMode} from "@/Components.ts";
-import {DataView} from "@/router/countries-page/components/CustomizeData.tsx";
+import DataTable, {DataView} from "@/router/country-page/components/DataTable.tsx";
+import {GameMode, GeoMode} from "@/Components.ts";
 
 export type CountryMapData = {
     width: number;
@@ -64,7 +57,10 @@ function CountryPage() {
     const [subdivisions, setSubdivisions] = useState<Map<string, SubdivisionInfo> | null>(null);
     const [regions, setRegions] = useState<Map<string, string[]> | null>(null);
     const [dataView, setDataView] = useState<Set<DataView>>(new Set());
-    
+    const [maps, setMaps] = useState<Map<GameMode, Map<string, MapInfo>> | null>(null);
+    const [geoMode, setGeoMode] = useState(GeoMode.NoMove);
+    const [rawMaps, setRawMaps] = useState<Map<string, string> | null>(null);
+
     const countryName = getCountryName(countryCode);
 
     const {
@@ -109,10 +105,19 @@ function CountryPage() {
             setPlayer(response.player);
             setIsLoggedIn(true);
             setIsLinked(true);
+            setRawMaps(new Map(Object.entries(response.maps)));
         }).catch((err: Error) => {
             console.error(err.message);
         });
     }, [countryCode, setIsLinked, setIsLoggedIn, setPlayer]);
+
+    useEffect(() => {
+        if (!rawMaps || !rawStats) {
+            return;
+        }
+        
+        setMaps(getMaps(rawStats, rawMaps, geoMode));
+    }, [geoMode, rawMaps, rawStats]);
 
     useEffect(() => {
         if (!countryCode) {
@@ -172,7 +177,7 @@ function CountryPage() {
         if (!regionMapData || !subdivisions) {
             return;
         }
-        
+
         const regionMap = new Map<string, string[]>();
 
         for (const [id, info] of subdivisions) {
@@ -185,67 +190,67 @@ function CountryPage() {
                 regionMap.set(info.region, subdivisionsInRegion);
             }
         }
-        
+
         setRegions(regionMap);
     }, [regionMapData, subdivisions]);
 
     useEffect(() => {
-        if (!rawStats || !subdivisions) {
+        if (!rawStats || !subdivisions || !maps) {
             return;
         }
 
         switch (gameMode) {
             case GameMode.Solo:
-                setSubdivisionStats(getSoloStats(rawStats.solo, subdivisions, time));
+                setSubdivisionStats(getSoloStats(rawStats.solo, subdivisions, time, maps, geoMode));
                 break;
             case GameMode.Duels: {
-                setSubdivisionStats(getDuelsStats(rawStats.duels, subdivisions, time));
+                setSubdivisionStats(getDuelsStats(rawStats.duels, subdivisions, time, maps, gameMode, geoMode));
                 break;
             }
             case GameMode.DuelsRanked: {
-                setSubdivisionStats(getDuelsStats(rawStats.duelsRanked, subdivisions, time));
+                setSubdivisionStats(getDuelsStats(rawStats.duelsRanked, subdivisions, time, maps, gameMode, geoMode));
                 break;
             }
             case GameMode.TeamDuels:
-                setSubdivisionStats(getTeamDuelsStats(rawStats.teamDuels, subdivisions, time));
+                setSubdivisionStats(getTeamDuelsStats(rawStats.teamDuels, subdivisions, time, maps, gameMode, geoMode));
                 break;
             case GameMode.TeamDuelsRanked:
-                setSubdivisionStats(getTeamDuelsStats(rawStats.teamDuelsRanked, subdivisions, time));
+                setSubdivisionStats(getTeamDuelsStats(rawStats.teamDuelsRanked, subdivisions, time, maps, gameMode, geoMode));
                 break;
             case GameMode.TeamFun:
-                setSubdivisionStats(getTeamDuelsStats(rawStats.teamFun, subdivisions, time));
+                setSubdivisionStats(getTeamDuelsStats(rawStats.teamFun, subdivisions, time, maps, gameMode, geoMode));
                 break;
         }
-    }, [gameMode, rawStats, time, subdivisions, dataView]);
+    }, [gameMode, rawStats, time, subdivisions, dataView, maps, geoMode]);
 
     useEffect(() => {
-        if (!rawStats || !subdivisions || !regions || !dataView.has(DataView.Region)) {
+        if (!rawStats || !subdivisions || !regions || !dataView.has(DataView.Region) || !maps) {
             return;
         }
 
         switch (gameMode) {
             case GameMode.Solo:
-                setRegionStats(getSoloStats(rawStats.solo, subdivisions, time, true));
+                setRegionStats(getSoloStats(rawStats.solo, subdivisions, time, maps, geoMode, true));
                 break;
             case GameMode.Duels: {
-                setRegionStats(getDuelsStats(rawStats.duels, subdivisions, time, true));
+                setRegionStats(getDuelsStats(rawStats.duels, subdivisions, time, maps, gameMode, geoMode, true));
                 break;
             }
             case GameMode.DuelsRanked: {
-                setRegionStats(getDuelsStats(rawStats.duelsRanked, subdivisions, time, true));
+                setRegionStats(getDuelsStats(rawStats.duelsRanked, subdivisions, time, maps, gameMode, geoMode, true));
                 break;
             }
             case GameMode.TeamDuels:
-                setRegionStats(getTeamDuelsStats(rawStats.teamDuels, subdivisions, time, true));
+                setRegionStats(getTeamDuelsStats(rawStats.teamDuels, subdivisions, time, maps, gameMode, geoMode, true));
                 break;
             case GameMode.TeamDuelsRanked:
-                setRegionStats(getTeamDuelsStats(rawStats.teamDuelsRanked, subdivisions, time, true));
+                setRegionStats(getTeamDuelsStats(rawStats.teamDuelsRanked, subdivisions, time, maps, gameMode, geoMode, true));
                 break;
             case GameMode.TeamFun:
-                setRegionStats(getTeamDuelsStats(rawStats.teamFun, subdivisions, time, true));
+                setRegionStats(getTeamDuelsStats(rawStats.teamFun, subdivisions, time, maps, gameMode, geoMode, true));
                 break;
         }
-    }, [gameMode, rawStats, time, subdivisions, dataView, regions]);
+    }, [gameMode, rawStats, time, subdivisions, dataView, regions, maps, geoMode]);
 
     if (countryName) {
         return (
@@ -278,6 +283,10 @@ function CountryPage() {
                                     countryCode={countryCode}
                                     dataView={dataView}
                                     setDataView={setDataView}
+                                    maps={maps}
+                                    setMaps={setMaps}
+                                    geoMode={geoMode}
+                                    setGeoMode={setGeoMode}
                                 />
                             </div>
                         </div>

@@ -1,14 +1,15 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import FilterCountries from "@/router/countries-page/components/FilterCountries.tsx";
-import {Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
+import {Table, TableBody, TableFooter, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import type {RegionStats, RegionStatsWrapper, SubdivisionFullStats, SubdivisionStatsWrapper} from "@/router/country-page/utils.ts";
-import {getAverageStats, type HeaderColumn, Key, SortingDirection, sortRegionStats, sortSubdivisionStats, type SubdivisionInfo} from "@/router/country-page/components/utils.ts";
-import CustomizeData, {DataView} from "@/router/countries-page/components/CustomizeData.tsx";
-import type {AverageStats} from "@/Components.ts";
+import type {MapInfo, RegionStats, RegionStatsWrapper, SubdivisionFullStats, SubdivisionStatsWrapper} from "@/router/country-page/utils.ts";
+import {getAverageStats, Key, SortingDirection, sortRegionStats, sortSubdivisionStats, type SubdivisionInfo} from "@/router/country-page/components/utils.ts";
+import CustomizeData from "@/router/countries-page/components/CustomizeData.tsx";
+import {GameMode, GeoMode} from "@/Components.ts";
 import DataTableRow from "@/router/country-page/components/DataTableRow.tsx";
-import {Style} from "@/router/country-page/components/Components.ts";
+import {getDefaultColumns, getDefaultSoloColumns, getHeaderColumns, Style} from "@/router/country-page/components/Components.ts";
+import {Context} from "@/App.tsx";
 
 interface Props {
     regions: Map<string, string[]> | null;
@@ -18,64 +19,34 @@ interface Props {
     countryCode: string | undefined;
     dataView: Set<DataView>;
     setDataView: React.Dispatch<React.SetStateAction<Set<DataView>>>;
+    maps: Map<GameMode, Map<string, MapInfo>> | null;
+    setMaps: React.Dispatch<React.SetStateAction<Map<GameMode, Map<string, MapInfo>> | null>>;
+    geoMode: GeoMode;
+    setGeoMode: React.Dispatch<React.SetStateAction<GeoMode>>;
+}
+
+export enum DataView {
+    Region = "Region",
+    Guess = "Guess"
 }
 
 export const NO_DATA = -Infinity;
 const DEFAULT_SORTED_BY = Key.Name;
 const DEFAULT_SORTING_DIRECTION = SortingDirection.Ascending;
 
-function DataTable({regions, regionStatsMap, subdivisions, subdivisionStatsMap, countryCode, dataView, setDataView}: Props) {
+function DataTable({regions, regionStatsMap, subdivisions, subdivisionStatsMap, countryCode, dataView, setDataView, maps, setMaps, geoMode, setGeoMode}: Props) {
     const [sortedBy, setSortedBy] = useState(DEFAULT_SORTED_BY);
     const [sortingDirection, setSortingDirection] = useState(DEFAULT_SORTING_DIRECTION);
     const [subdivisionFilter, setSubdivisionFilter] = useState("");
-    const [selectedColumns, setSelectedColumns] = useState(new Set(Object.values(Key).filter(key => !key.includes("Enemy"))));
+    const [selectedColumns, setSelectedColumns] = useState(getDefaultColumns());
+    const [soloSelectedColumns, setSoloSelectedColumns] = useState(getDefaultSoloColumns());
     const [subdivisionStats, setSubdivisionStats] = useState<SubdivisionStatsWrapper | RegionStatsWrapper | null>(null);
-    const [averageStats, setAverageStats] = useState<AverageStats | null>(null);
+    const [averageStats, setAverageStats] = useState<SubdivisionFullStats | null>(null);
     const [selectedRegions, setSelectedRegions] = useState<Set<string>>(new Set<string>());
 
-    const headerColumns: HeaderColumn[] = [];
+    const {gameMode} = useContext(Context);
 
-    headerColumns.push({
-        className: "w-50",
-        defaultSortingDirection: SortingDirection.Ascending,
-        key: Key.Name
-    });
-
-    headerColumns.push({
-        className: "w-25",
-        defaultSortingDirection: SortingDirection.Descending,
-        key: Key.HitRate
-    });
-
-    headerColumns.push({
-        className: "w-25",
-        defaultSortingDirection: SortingDirection.Descending,
-        key: Key.EnemyHitRate
-    });
-
-    headerColumns.push({
-        className: "w-25",
-        defaultSortingDirection: SortingDirection.Descending,
-        key: Key.AveragePoints
-    });
-
-    headerColumns.push({
-        className: "w-25",
-        defaultSortingDirection: SortingDirection.Descending,
-        key: Key.AverageEnemyPoints
-    });
-
-    headerColumns.push({
-        className: "w-25",
-        defaultSortingDirection: SortingDirection.Descending,
-        key: Key.AverageDamage
-    });
-
-    headerColumns.push({
-        className: "text-right",
-        defaultSortingDirection: SortingDirection.Descending,
-        key: Key.Count
-    });
+    const headerColumns = getHeaderColumns();
 
     useEffect(() => {
         if (!dataView.has(DataView.Region)) {
@@ -98,6 +69,8 @@ function DataTable({regions, regionStatsMap, subdivisions, subdivisionStatsMap, 
                         averageDamage: NO_DATA,
                         hitRate: NO_DATA,
                         enemyHitRate: NO_DATA,
+                        averageGuessTime: NO_DATA,
+                        averageEnemyGuessTime: NO_DATA,
                         count: 0
                     };
                 }
@@ -132,6 +105,8 @@ function DataTable({regions, regionStatsMap, subdivisions, subdivisionStatsMap, 
                             averageDamage: NO_DATA,
                             hitRate: NO_DATA,
                             enemyHitRate: NO_DATA,
+                            averageGuessTime: NO_DATA,
+                            averageEnemyGuessTime: NO_DATA,
                             count: 0
                         };
                     }
@@ -153,6 +128,8 @@ function DataTable({regions, regionStatsMap, subdivisions, subdivisionStatsMap, 
                         averagePoints: NO_DATA,
                         averageEnemyPoints: NO_DATA,
                         averageDamage: NO_DATA,
+                        averageGuessTime: NO_DATA,
+                        averageEnemyGuessTime: NO_DATA,
                         count: 0
                     };
                 }
@@ -230,19 +207,26 @@ function DataTable({regions, regionStatsMap, subdivisions, subdivisionStatsMap, 
             <div className={"flex flex-row justify-between"}>
                 <FilterCountries countryFilter={subdivisionFilter} setCountryFilter={setSubdivisionFilter} placeholder={"Search for Subdivisions..."}/>
                 <CustomizeData
-                    setSelectedColumns={setSelectedColumns}
-                    selectedColumns={selectedColumns}
+                    setSelectedColumns={gameMode !== GameMode.Solo ? setSelectedColumns : setSoloSelectedColumns}
+                    selectedColumns={gameMode !== GameMode.Solo ? selectedColumns : soloSelectedColumns}
                     e={Key}
                     includeSolo={true}
                     dataView={dataView}
                     setDataView={setDataView}
+                    soloColumns={getDefaultSoloColumns()}
+                    maps={maps}
+                    setMaps={setMaps}
+                    geoMode={geoMode}
+                    setGeoMode={setGeoMode}
                 />
             </div>
             <Table className={"border-separate border-spacing-0 text-base relative"}>
                 <TableHeader>
                     <TableRow className={"sticky top-0 hover:bg-muted-0 bg-card"}>
                         {headerColumns
-                            .filter((headerColumn) => selectedColumns.has(headerColumn.key))
+                            .filter((headerColumn) =>
+                                (gameMode !== GameMode.Solo && selectedColumns.has(headerColumn.key)) ||
+                                (gameMode === GameMode.Solo && soloSelectedColumns.has(headerColumn.key)))
                             .map((headerColumn) => (
                                 <TableHead className={headerColumn.className}>
                                     <Button
@@ -270,26 +254,38 @@ function DataTable({regions, regionStatsMap, subdivisions, subdivisionStatsMap, 
                                 }
 
                                 return (
-                                    <DataTableRow subdivisionStats={subdivision} selectedColumns={selectedColumns} countryCode={countryCode} style={Style.Subdivision}/>
+                                    <DataTableRow
+                                        subdivisionStats={subdivision}
+                                        selectedColumns={gameMode !== GameMode.Solo ? selectedColumns : soloSelectedColumns}
+                                        countryCode={countryCode}
+                                        style={Style.Subdivision}
+                                    />
                                 );
                             } else {
                                 return (
                                     <React.Fragment>
-                                        <DataTableRow
-                                            subdivisionStats={subdivision.average}
-                                            selectedColumns={selectedColumns}
-                                            countryCode={countryCode}
-                                            style={Style.Region}
-                                            selectedRegions={selectedRegions}
-                                            setSelectedRegions={setSelectedRegions}
-                                        />
+                                        {subdivision.average.name.toLowerCase().includes(subdivisionFilter.toLowerCase()) &&
+                                            <DataTableRow
+                                                subdivisionStats={subdivision.average}
+                                                selectedColumns={gameMode !== GameMode.Solo ? selectedColumns : soloSelectedColumns}
+                                                countryCode={countryCode}
+                                                style={Style.Region}
+                                                selectedRegions={selectedRegions}
+                                                setSelectedRegions={setSelectedRegions}
+                                            />
+                                        }
                                         {selectedRegions?.has(subdivision.average.id) && subdivision.subdivisions.map((subdivisionRegion) => {
                                             if (!subdivisionRegion.name.toLowerCase().includes(subdivisionFilter.toLowerCase())) {
                                                 return null;
                                             }
 
                                             return (
-                                                <DataTableRow subdivisionStats={subdivisionRegion} selectedColumns={selectedColumns} countryCode={countryCode} style={Style.Subdivision}/>
+                                                <DataTableRow
+                                                    subdivisionStats={subdivisionRegion}
+                                                    selectedColumns={gameMode !== GameMode.Solo ? selectedColumns : soloSelectedColumns}
+                                                    countryCode={countryCode}
+                                                    style={Style.Subdivision}
+                                                />
                                             );
                                         })}
                                     </React.Fragment>
@@ -299,30 +295,12 @@ function DataTable({regions, regionStatsMap, subdivisions, subdivisionStatsMap, 
                 </TableBody>
                 <TableFooter className={"sticky bottom-0"}>
                     {averageStats &&
-                        <TableRow key={"total"}>
-                            <TableCell hidden={!selectedColumns.has(Key.Name)} className={"flex flex-row items-center gap-2"}>
-                                Total
-                            </TableCell>
-                            <TableCell hidden={!selectedColumns.has(Key.HitRate)} className={"pl-6"}>
-                                {averageStats.hitRate !== NO_DATA ? averageStats.hitRate + "%" : "-"}
-                            </TableCell>
-                            <TableCell hidden={!selectedColumns.has(Key.EnemyHitRate)} className={"pl-6"}>
-                                {averageStats.enemyHitRate !== NO_DATA ? averageStats.enemyHitRate + "%" : "-"}
-                            </TableCell>
-                            <TableCell hidden={!selectedColumns.has(Key.AveragePoints)} className={"pl-6"}>
-                                {averageStats.averagePoints !== NO_DATA ? averageStats.averagePoints : "-"}
-                            </TableCell>
-                            <TableCell hidden={!selectedColumns.has(Key.AverageEnemyPoints)} className={"pl-6"}>
-                                {averageStats.averageEnemyPoints !== NO_DATA ? averageStats.averageEnemyPoints : "-"}
-                            </TableCell>
-                            <TableCell hidden={!selectedColumns.has(Key.AverageDamage)} className={"pl-6"}>
-                                {averageStats.averageDamage !== NO_DATA ? averageStats.averageDamage : "-"}
-                            </TableCell>
-                            <TableCell hidden={!selectedColumns.has(Key.Count)} className={"text-right pr-6"}>
-                                {averageStats.count}
-                            </TableCell>
-                        </TableRow>
-                    }
+                        <DataTableRow
+                            subdivisionStats={averageStats}
+                            selectedColumns={gameMode !== GameMode.Solo ? selectedColumns : soloSelectedColumns}
+                            countryCode={countryCode}
+                            style={Style.Average}
+                        />}
                 </TableFooter>
             </Table>
         </div>
